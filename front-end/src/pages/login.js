@@ -74,6 +74,7 @@ function Login({ history }) {
       >
         Ainda Não tenho conta
       </button>
+      <div data-testid="common_login__element-invalid-email">E-mail inválido!</div>
     </section>
   );
 }

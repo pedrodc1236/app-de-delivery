@@ -78,6 +78,7 @@ function CreateAccount({ history }) {
           CADASTRAR
         </button>
       </form>
+      <div data-testid="common_register__element-invalid_register">E-mail inválido!</div>
     </section>
   );
 }
