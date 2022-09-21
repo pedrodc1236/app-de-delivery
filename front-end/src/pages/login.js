@@ -31,6 +31,7 @@ function Login({ history }) {
         <label htmlFor="loginEmail">
           Login
           <input
+            data-testid="common_login__input-email"
             id="loginEmail"
             type="email"
             value={ email }
@@ -43,6 +44,7 @@ function Login({ history }) {
         <label htmlFor="passwordIn">
           Password
           <input
+            data-testid="common_login__input-password"
             type="password"
             value={ password }
             name="password"
@@ -52,6 +54,7 @@ function Login({ history }) {
         </label>
         <br />
         <button
+          data-testid="common_login__button-login"
           type="submit"
           disabled={ !validate }
           onClick={ handleSubmit }
@@ -59,7 +62,7 @@ function Login({ history }) {
           LOGIN
         </button>
       </form>
-      <button type="button">
+      <button type="button" data-testid="common_login__button-register">
         Ainda Não tenho conta
       </button>
     </section>
