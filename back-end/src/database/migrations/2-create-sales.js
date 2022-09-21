@@ -13,7 +13,7 @@ module.exports = {
         type: Sequelize.INTEGER,
         field: 'user_id',
         references: {
-          model: 'User',
+          model: 'users',
           key: 'id',
         },
         onUpdate: 'CASCADE',
@@ -24,7 +24,7 @@ module.exports = {
         type: Sequelize.INTEGER,
         field: 'seller_id',
         references: {
-          model: 'User',
+          model: 'users',
           key: 'id',
         },
         onUpdate: 'CASCADE',
@@ -32,7 +32,7 @@ module.exports = {
       },
       totalPrice: {
         allowNull: false,
-        type: Sequelize.DECIMAL,
+        type: Sequelize.DECIMAL(9, 2),
         field: 'total_price'
       },
       deliveryAddress: {
@@ -47,7 +47,7 @@ module.exports = {
       },
       saleDate: {
         allowNull: false,
-        type: Sequelize.DATETIME,
+        type: Sequelize.DATE,
         field: 'sale_date'
       },
       status: {
