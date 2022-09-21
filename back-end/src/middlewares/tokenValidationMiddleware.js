@@ -1,5 +1,4 @@
-const authService = require('../database/services/authService');
-
+const authService = require('../services/authService');
 /**
  * 
  * @param {Error} err 
