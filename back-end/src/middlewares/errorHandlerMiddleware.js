@@ -18,4 +18,4 @@ const errorHandlerMiddleware = ({ name, message }, _req, res, _next) => { // {na
   res.status(status).json({ message });
 };
 
-export default errorHandlerMiddleware;
+module.exports = errorHandlerMiddleware;
