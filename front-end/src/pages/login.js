@@ -31,30 +31,30 @@ function Login({ history }) {
         <label htmlFor="loginEmail">
           Login
           <input
-            data-testid="1"
+            data-testid="common_login__input-email"
             id="loginEmail"
             type="email"
             value={ email }
             name="email"
             onChange={ handleChange }
-            placeholder="EMAIL"
+            placeholder="email@trybeer.com.br"
           />
         </label>
         <br />
         <label htmlFor="passwordIn">
-          Password
+          Senha
           <input
-            data-testid="2"
+            data-testid="common_login__input-password"
             type="password"
             value={ password }
             name="password"
             onChange={ handleChange }
-            placeholder="PASSWORD"
+            placeholder="***********"
           />
         </label>
         <br />
         <button
-          data-testid="3"
+          data-testid="common_login__button-login"
           type="submit"
           disabled={ !validate }
           onClick={ handleSubmit }
@@ -62,7 +62,7 @@ function Login({ history }) {
           LOGIN
         </button>
       </form>
-      <button type="button" data-testid="4">
+      <button type="button" data-testid="common_login__button-register">
         Ainda Não tenho conta
       </button>
     </section>
