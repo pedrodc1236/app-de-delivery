@@ -2,7 +2,7 @@ const express = require('express');
 require('express-async-errors');
 
 const authRoute = require('../routes/authRoute');
-const registerRouter = require('../routes/register.route');
+const registerRouter = require('../routes/registerRoute');
 const productRoute = require('../routes/productRoute');
 
 const errorHandlerMiddleware = require('../middlewares/errorHandlerMiddleware');
