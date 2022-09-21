@@ -1,4 +1,4 @@
-const authService = require('../database/services/authService');
+/* const authService = require('../database/services/authService');
 
 /**
  * 
@@ -7,7 +7,7 @@ const authService = require('../database/services/authService');
  * @param {import('express').Response} res 
  * @param {import('express').NextFunction} next 
  */
-const tokenValidationMiddleware = async (req, res, next) => {
+/* const tokenValidationMiddleware = async (req, res, next) => {
   const token = req.headers.authorization;
   console.log(token);
   const validator = await authService.validateAuthorization(token);
@@ -16,4 +16,4 @@ const tokenValidationMiddleware = async (req, res, next) => {
   next();
 };
 
-module.exports = tokenValidationMiddleware;
+module.exports = tokenValidationMiddleware; */
