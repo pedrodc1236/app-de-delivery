@@ -32,10 +32,10 @@ const productService = {
   async delete(id) {
     const product = await Product.delete(id);
     if (!product) {
-      return NotFoundError('Product not found');
+      return NotFoundError('Product not found!');
     }
     return product;
   },
-}
+};
 
 module.exports = productService;

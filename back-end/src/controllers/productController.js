@@ -8,18 +8,18 @@ const productController = {
   },
 
   async getAll(req, res) {
-    const products = await productService.getAll(req.body)
+    const products = await productService.getAll(req.body);
     return res.status(200).json(products);
   },
 
   async getById(req, res) {
-    const { id } = req.param
+    const { id } = req.param;
     const product = await productService.getById(id);
     return res.status(200).json(product);
   },
 
   async update(req, res) {
-    const { id } = req.param
+    const { id } = req.param;
     const product = await productService.update(id);
     return res.status(200).json(product);
   },
@@ -28,7 +28,7 @@ const productController = {
     const { id } = req.param;
     const product = await productService.delete(id);
     return res.status(204).json(product);
-  }
-}
+  },
+};
 
 module.exports = productController;
