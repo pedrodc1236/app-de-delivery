@@ -7,7 +7,6 @@ import Login from './pages/login';
 function App() {
   return (
     <section>
-      <h1> login </h1>
       <Switch>
         <Route
           exact

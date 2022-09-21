@@ -26,30 +26,42 @@ function Login({ history }) {
 
   return (
     <section>
-      <h1>Login</h1>
+      <h1>Biritas Bar</h1>
       <form>
-        <input
-          type="email"
-          value={ email }
-          name="email"
-          onChange={ handleChange }
-          placeholder="EMAIL"
-        />
-        <input
-          type="password"
-          value={ password }
-          name="password"
-          onChange={ handleChange }
-          placeholder="PASSWORD"
-        />
+        <label htmlFor="loginEmail">
+          Login
+          <input
+            id="loginEmail"
+            type="email"
+            value={ email }
+            name="email"
+            onChange={ handleChange }
+            placeholder="EMAIL"
+          />
+        </label>
+        <br />
+        <label htmlFor="passwordIn">
+          Password
+          <input
+            type="password"
+            value={ password }
+            name="password"
+            onChange={ handleChange }
+            placeholder="PASSWORD"
+          />
+        </label>
+        <br />
         <button
           type="submit"
           disabled={ !validate }
           onClick={ handleSubmit }
         >
-          Enter
+          LOGIN
         </button>
       </form>
+      <button type="button">
+        Ainda Não tenho conta
+      </button>
     </section>
   );
 }
