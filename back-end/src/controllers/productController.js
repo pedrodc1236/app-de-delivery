@@ -13,13 +13,13 @@ const productController = {
   },
 
   async getById(req, res) {
-    const { id } = req.param;
+    const { id } = req.params;
     const product = await productService.getById(id);
     return res.status(200).json(product);
   },
 
   async update(req, res) {
-    const { id } = req.param;
+    const { id } = req.params;
     const product = await productService.update(id);
     return res.status(200).json(product);
   },

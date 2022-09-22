@@ -16,7 +16,7 @@
     "test:coverage": "nyc --all npm run test",
     "test:coverage:json": "nyc --all --reporter=json-summary npm run test",
     "lint": "eslint --no-inline-config --no-error-on-unmatched-pattern -c .eslintrc.json .",
-    "debug": "nodemon --watch src."
+    "debug": "nodemon ."
   },
   "dependencies": {
     "@hapi/boom": "9.1.4",

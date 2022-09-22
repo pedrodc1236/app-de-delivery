@@ -1,4 +1,4 @@
-const Product = require('../database/models/products');
+const { Product } = require('../database/models');
 const { NotFoundError } = require('../middlewares/errors');
 
 const productService = {

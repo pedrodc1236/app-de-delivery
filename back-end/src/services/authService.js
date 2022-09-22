@@ -56,7 +56,7 @@ const authService = {
   async verifyUserPassword(dataPassword, userPassword) {
     const icnryptedPassword = md5(dataPassword);
     if (userPassword !== icnryptedPassword) {
-      ValidationError('Invalid password');
+      NotFoundError('Invalid password');
     }
   },
 };

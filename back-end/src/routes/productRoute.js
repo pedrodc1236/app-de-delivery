@@ -1,16 +1,17 @@
 const { Router } = require('express');
 const productController = require('../controllers/productController');
+const tokenValidationMiddleware = require('../middlewares/tokenValidationMiddleware');
 
 const productRoute = Router();
 
-productRoute.post('/', productController.create);
+productRoute.post('/', tokenValidationMiddleware, productController.create);
 
-productRoute.get('/', productController.getAll);
+productRoute.get('/', tokenValidationMiddleware, productController.getAll);
 
-productRoute.get('/:id', productController.getById);
+productRoute.get('/:id', tokenValidationMiddleware, productController.getById);
 
-productRoute.put('/:id', productController.update);
+productRoute.put('/:id', tokenValidationMiddleware, productController.update);
 
-productRoute.delete('/:id', productController.delete);
+productRoute.delete('/:id', tokenValidationMiddleware, productController.delete);
 
 module.exports = productRoute;
