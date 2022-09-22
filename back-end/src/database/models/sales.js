@@ -1,12 +1,15 @@
 const Sale = (sequelize, DataTypes) => {
   const Sale = sequelize.define('Sale', {
-    userId: {
+    id: {
+      type: DataTypes.INTEGER,
       primaryKey: true,
+      autoIncrement: true,
+    },
+    userId: {
       type: DataTypes.INTEGER,
       field: 'user_id'
     },
     sellerId: {
-      primaryKey: true,
       type: DataTypes.INTEGER,
       field: 'seller_id'
     },
