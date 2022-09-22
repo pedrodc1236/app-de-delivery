@@ -1,6 +1,7 @@
 const express = require('express');
 require('express-async-errors');
 
+const cors = require('cors');
 const authRoute = require('../routes/authRoute');
 const registerRouter = require('../routes/registerRoute');
 const productRoute = require('../routes/productRoute');
@@ -10,6 +11,8 @@ const salesProductRoute = require('../routes/salesProductRoute');
 const errorHandlerMiddleware = require('../middlewares/errorHandlerMiddleware');
 
 const app = express();
+
+app.use(cors());
 
 app.use(express.json());
 
