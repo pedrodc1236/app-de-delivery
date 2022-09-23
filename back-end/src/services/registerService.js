@@ -21,14 +21,20 @@ const registerService = {
     }
   },
 
-  async validateUserByEmail(email) {
-    const userModel = await User.findOne({
-      where: { email },
-    });
-    if (userModel) {
-      ValidationError('Email exists');
+  async userExists(name, email) {
+    const userName = await User.findOne({ where: { name } });
+
+    const userEmail = await User.findOne({ where: { email } });
+
+    if (userName) {
+      return { code: 409, message: 'This username already exists' };
     }
-    return userModel;
+
+    if (userEmail) {
+      return { code: 409, message: 'This email already exists' };
+    }
+
+    return false;
   },
   
   async create(reqBody) {
