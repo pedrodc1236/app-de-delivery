@@ -30,6 +30,7 @@ function Login({ history }) {
       console.log(request);
       if (request.status === ok) {
         setNotFound(false);
+        history.push('/customer/products');
       }
     } catch (err) {
       if (err.response.status === notFoundNumber) {
