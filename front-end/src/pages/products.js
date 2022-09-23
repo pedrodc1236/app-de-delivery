@@ -6,7 +6,7 @@ import MyContext from '../context/MyContext';
 function Products() {
   const { produtos } = useContext(MyContext);
   const [count, setCount] = useState(0);
-  // const [total, setTotal] = useState(0);
+  // const [status, setStatus] = useState(0);
   const img = '100px';
 
   const increment1 = () => {
@@ -15,8 +15,16 @@ function Products() {
 
   const decrement1 = () => {
     if (count === 0) return;
-    setCount(count - 1);
+    setCount((prev) => prev + 1);
   };
+
+  function handleChange() {
+    const { name, value } = e.target;
+    setCount((prevState) => ({
+      ...prevState,
+      [name]: value,
+    }));
+  }
 
   return (
     <div>
@@ -25,7 +33,13 @@ function Products() {
         {produtos?.map((p) => (
           <section key={ p.id }>
             <div>
-              <img src={ p.urlImage } alt={ p.name } width={ img } height={ img } />
+              <img
+                src={ p.urlImage }
+                alt={ p.name }
+                width={ img }
+                height={ img }
+                data-testid={ `customer_products__img-card-bg-image-${p.id}` }
+              />
               <p
                 data-testid={ `customer_products_element-card-title${p.id}` }
               >
@@ -44,8 +58,10 @@ function Products() {
                 -
               </button>
               <input
+                onChange={ handleChange }
                 value={ count }
-                id="quantity"
+                name="teste"
+                id={ p.name }
                 type="text"
                 data-testid={ `customer_products__input-card-quantity-${p.id}` }
               />
