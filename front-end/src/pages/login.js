@@ -6,11 +6,13 @@ function Login({ history }) {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [validate, setValidate] = useState(false);
+  const [notFound, setNotFound] = useState(false);
 
   useEffect(() => {
-    const validEmail = email.match(/^[\w-.]+@([\w-]+\.)+[\w-]{2,4}$/gm);
+    const regexEmail = /\S+@\S+\.\S+/;
+    const validEmail = regexEmail.test(email);
     const passLength = 6;
-    const validPassword = password.length > passLength;
+    const validPassword = password.length >= passLength;
     setValidate(validEmail && validPassword);
   }, [email, password]);
 
@@ -19,14 +21,21 @@ function Login({ history }) {
     if (name === 'password') setPassword(value);
   };
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
-    console.log('qualquer coisa', email, password);
-    axiosApi.post('/login', { email, password })
-      .then((response) => {
-        const { data } = response;
-        return data;
-      }).catch((error) => console.log(error));
+    const notFoundNumber = 404;
+    const ok = 200;
+    try {
+      const request = await axiosApi.post('/login', { email, password });
+      console.log(request);
+      if (request.status === ok) {
+        setNotFound(false);
+      }
+    } catch (err) {
+      if (err.response.status === notFoundNumber) {
+        setNotFound(true);
+      }
+    }
   };
 
   const createAccount = (e) => {
@@ -79,7 +88,10 @@ function Login({ history }) {
       >
         Ainda Não tenho conta
       </button>
-      <div data-testid="common_login__element-invalid-email">E-mail inválido!</div>
+      {
+        notFound
+        && <div data-testid="common_login__element-invalid-email">E-mail inválido!</div>
+      }
     </section>
   );
 }
