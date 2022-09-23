@@ -51,7 +51,7 @@ function Products() {
                 data-testid={ `customer_products__img-card-bg-image-${p.id}` }
               />
               <p
-                data-testid={ `customer_products_element-card-title${p.id}` }
+                data-testid={ `customer_products__element-card-title-${p.id}` }
               >
                 {p.name}
               </p>
