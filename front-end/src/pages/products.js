@@ -5,20 +5,30 @@ import MyContext from '../context/MyContext';
 
 function Products() {
   const { produtos } = useContext(MyContext);
+  /* const xablau = produtos.forEach(() => {
+    quantidadeSoma
+  }); */
   const [count, setCount] = useState(0);
-  // const [status, setStatus] = useState(0);
   const img = '100px';
 
-  const increment1 = () => {
-    setCount((prev) => prev + 1);
+  const increment1 = (e) => {
+    const { name } = e.target;
+    setCount((prevState) => ({
+      ...prevState,
+      [name]: prevState[name] ? prevState[name] + 1 : 1,
+    }));
   };
 
-  const decrement1 = () => {
-    if (count === 0) return;
-    setCount((prev) => prev + 1);
+  const decrement1 = (e) => {
+    const { name } = e.target;
+    const min = -1;
+    setCount((prevState) => ({
+      ...prevState,
+      [name]: prevState[name] ? prevState[name] - 1 : min,
+    }));
   };
 
-  function handleChange() {
+  function handleChange(e) {
     const { name, value } = e.target;
     setCount((prevState) => ({
       ...prevState,
@@ -30,7 +40,7 @@ function Products() {
     <div>
       <Header />
       <main>
-        {produtos?.map((p) => (
+        {produtos?.map((p, index) => (
           <section key={ p.id }>
             <div>
               <img
@@ -52,6 +62,7 @@ function Products() {
               </p>
               <button
                 onClick={ decrement1 }
+                name={ `quantidadeSoma${index}` }
                 data-testid={ `customer_products__button-card-rm-item-${p.id}` }
                 type="button"
               >
@@ -59,14 +70,15 @@ function Products() {
               </button>
               <input
                 onChange={ handleChange }
-                value={ count }
-                name="teste"
+                value={ count[`quantidadeSoma${index}`] || 0 }
+                name={ `quantidadeSoma${index}` }
                 id={ p.name }
                 type="text"
                 data-testid={ `customer_products__input-card-quantity-${p.id}` }
               />
               <button
                 onClick={ increment1 }
+                name={ `quantidadeSoma${index}` }
                 data-testid={ `customer_products__button-card-add-item-${p.id}` }
                 type="button"
               >
