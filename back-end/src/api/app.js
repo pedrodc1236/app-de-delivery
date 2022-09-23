@@ -5,8 +5,9 @@ const cors = require('cors');
 const authRoute = require('../routes/authRoute');
 const registerRouter = require('../routes/registerRoute');
 const productRoute = require('../routes/productRoute');
-const orderRoute = require('../routes/orderRoute');
+const saleRoute = require('../routes/saleRoute');
 const salesProductRoute = require('../routes/salesProductRoute');
+const userRoute = require('../routes/userRoute');
 
 const errorHandlerMiddleware = require('../middlewares/errorHandlerMiddleware');
 
@@ -19,8 +20,9 @@ app.use(express.json());
 app.use('/login', authRoute);
 app.use('/register', registerRouter);
 app.use('/products', productRoute);
-app.use('/order', orderRoute);
+app.use('/sales', saleRoute);
 app.use('/sales_products', salesProductRoute);
+app.use('/users', userRoute);
 
 app.use(errorHandlerMiddleware);
 

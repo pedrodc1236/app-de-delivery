@@ -1,33 +1,43 @@
-// import React, { useState } from 'react';
-// import PropTypes from 'prop-types';
+import React, { useMemo, useState } from 'react';
+import PropTypes from 'prop-types';
 
 // import fetchProducts from '../services/productsApi';
 
-// import MyContext from './MyContext';
+import MyContext from './MyContext';
 
-// function AppProvider({ children }) {
-//   const [products, setProducts] = useState([]);
+function AppProvider({ children }) {
+  const [emailUser, setEmailUser] = useState('');
+  const [nameUser, setNameUser] = useState('');
 
-//   async function getProducts() {
-//     const { product } = await fetchProducts();
-//     setProducts(product);
-//   }
+  // const [products, setProducts] = useState([]);
 
-//   const contextValue = {
-//     products,
-//     setProducts,
-//     getProducts,
-//   };
+  // async function getProducts() {
+  //   const { product } = await fetchProducts();
+  //   setProducts(product);
+  // }
 
-//   return (
-//     <MyContext.Provider value={ contextValue }>
-//       { children }
-//     </MyContext.Provider>
-//   );
-// }
+  // const contextValue = {
+  //   products,
+  //   setProducts,
+  //   getProducts,
+  // };
 
-// AppProvider.propTypes = {
-//   children: PropTypes.node.isRequired,
-// };
+  const contextValue = useMemo(() => ({
+    emailUser,
+    setEmailUser,
+    nameUser,
+    setNameUser,
+  }), [emailUser, nameUser]);
 
-// export default Provider;
+  return (
+    <MyContext.Provider value={ contextValue }>
+      { children }
+    </MyContext.Provider>
+  );
+}
+
+AppProvider.propTypes = {
+  children: PropTypes.node.isRequired,
+};
+
+export default AppProvider;

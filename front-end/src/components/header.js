@@ -1,11 +1,16 @@
 /* import React, { useContext, useState } from 'react';
 import { useLocation, Redirect } from 'react-router-dom';
 import MyContext from '../context/MyContext'; */
-import React from 'react';
 import PropTypes from 'prop-types';
 import { useHistory } from 'react-router-dom';
+import React, { useContext } from 'react';
+import MyContext from '../context/MyContext';
 
 function Header() {
+  const {
+    nameUser,
+  } = useContext(MyContext);
+
   const history = useHistory();
   const goProducts = (e) => {
     e.preventDefault();
@@ -48,7 +53,7 @@ function Header() {
         onClick={ goProfile }
         data-testid="customer_products__element-navbar-user-full-name"
       >
-        CICRANO DA SILVA
+        { nameUser }
       </button>
       <button
         type="button"

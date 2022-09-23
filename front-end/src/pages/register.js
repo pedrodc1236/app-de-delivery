@@ -1,18 +1,47 @@
-import React, { useEffect, useState } from 'react';
+import React, { useContext, useEffect, useState } from 'react';
 import PropTypes from 'prop-types';
+import axiosApi from '../services/axios';
+import MyContext from '../context/MyContext';
 // import MyContext from '../context/MyContext';
 
-function CreateAccount({ history }) {
+function Register({ history }) {
+  const {
+    setEmailUser,
+    setNameUser,
+  } = useContext(MyContext);
+
   const [nome, setNome] = useState('');
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [validate, setValidate] = useState(false);
+  const [notValid, setNotValid] = useState(false);
+  const [messageError, setMessageError] = useState('');
+
+  const messagensNotValid = (validEmail, validPassword, validName) => {
+    if (!validName) {
+      setMessageError('Nome completo com menos de 12 caracters');
+    }
+
+    if (!validEmail) {
+      setMessageError('Email inválido');
+    }
+
+    if (!validPassword) {
+      setMessageError('Senha com menos de 6 caracters');
+    }
+  };
 
   useEffect(() => {
-    const validEmail = email.match(/^[\w-.]+@([\w-]+\.)+[\w-]{2,4}$/gm);
+    const regexEmail = /\S+@\S+\.\S+/;
+    const validEmail = regexEmail.test(email);
+
     const passLength = 6;
-    const validPassword = password.length > passLength;
-    const validName = nome.length > passLength;
+    const validPassword = password.length >= passLength;
+
+    const nameLength = 12;
+    const validName = nome.length >= nameLength;
+
+    messagensNotValid(validEmail, validPassword, validName);
     setValidate(validEmail && validPassword && validName);
   }, [email, password, nome]);
 
@@ -22,9 +51,27 @@ function CreateAccount({ history }) {
     if (name === 'nome') setNome(value);
   };
 
-  const handleSubmit = (e) => {
+  const createdUser = async () => {
+    try {
+      const newUser = { name: nome, email, password, role: 'customer' };
+      const request = await axiosApi.post('/register', { ...newUser });
+      console.log(request);
+      setEmailUser(request.data.email);
+      setNameUser(request.data.name);
+    } catch (err) {
+      console.log(err);
+    }
+  };
+
+  const handleSubmit = async (e) => {
     e.preventDefault();
-    history.push('/login');
+
+    if (validate) {
+      await createdUser();
+      history.push('/customer/products');
+    } else {
+      setNotValid(true);
+    }
   };
 
   return (
@@ -72,21 +119,29 @@ function CreateAccount({ history }) {
         <button
           data-testid="common_register__button-register"
           type="submit"
-          disabled={ !validate }
           onClick={ handleSubmit }
+          disabled={ !validate }
         >
           CADASTRAR
         </button>
       </form>
-      <div data-testid="common_register__element-invalid_register">E-mail inválido!</div>
+      {
+        notValid
+        && (
+          <p
+            data-testid="common_register__element-invalid_register"
+          >
+            { messageError }
+          </p>)
+      }
     </section>
   );
 }
 
-CreateAccount.propTypes = {
+Register.propTypes = {
   history: PropTypes.shape({
     push: PropTypes.func,
   }).isRequired,
 };
 
-export default CreateAccount;
+export default Register;
