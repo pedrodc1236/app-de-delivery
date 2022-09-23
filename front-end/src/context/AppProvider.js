@@ -1,6 +1,7 @@
 import React, { /* useEffect, */ useEffect, useMemo, useState } from 'react';
 import PropTypes from 'prop-types';
 import { productsList } from '../services/axios';
+import { getUser } from '../services/localStorage';
 
 // import fetchProducts from '../services/productsApi';
 
@@ -25,13 +26,14 @@ function AppProvider({ children }) {
   //   getProducts,
   // };
 
-  const prodAll = async () => {
-    const result = await productsList();
+  const prodAll = async (t) => {
+    const result = await productsList(t);
     setProdutos(result);
   };
 
   useEffect(() => {
-    prodAll();
+    const { token } = getUser();
+    prodAll(token);
   }, []);
 
   const contextValue = useMemo(() => ({
