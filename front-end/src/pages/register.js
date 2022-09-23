@@ -3,54 +3,43 @@ import PropTypes from 'prop-types';
 import axiosApi from '../services/axios';
 import MyContext from '../context/MyContext';
 // import MyContext from '../context/MyContext';
-
 function Register({ history }) {
   const {
     setEmailUser,
     setNameUser,
   } = useContext(MyContext);
-
   const [nome, setNome] = useState('');
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [validate, setValidate] = useState(false);
   const [notValid, setNotValid] = useState(false);
   const [messageError, setMessageError] = useState('');
-
-  const messagensNotValid = (validEmail, validPassword, validName) => {
-    if (!validName) {
-      setMessageError('Nome completo com menos de 12 caracters');
-    }
-
-    if (!validEmail) {
-      setMessageError('Email inválido');
-    }
-
-    if (!validPassword) {
-      setMessageError('Senha com menos de 6 caracters');
-    }
-  };
-
+  // const messagensNotValid = (validEmail, validPassword, validName) => {
+  //   if (!validName) {
+  //     setMessageError('Nome completo com menos de 12 caracters');
+  //   }
+  //   if (!validEmail) {
+  //     setMessageError('Email inválido');
+  //   }
+  //   if (!validPassword) {
+  //     setMessageError('Senha com menos de 6 caracters');
+  //   }
+  // };
   useEffect(() => {
     const regexEmail = /\S+@\S+\.\S+/;
     const validEmail = regexEmail.test(email);
-
     const passLength = 6;
     const validPassword = password.length >= passLength;
-
     const nameLength = 12;
     const validName = nome.length >= nameLength;
-
-    messagensNotValid(validEmail, validPassword, validName);
+    // messagensNotValid(validEmail, validPassword, validName);
     setValidate(validEmail && validPassword && validName);
   }, [email, password, nome]);
-
   const handleChange = ({ target: { name, value } }) => {
     if (name === 'email') setEmail(value);
     if (name === 'password') setPassword(value);
     if (name === 'nome') setNome(value);
   };
-
   const createdUser = async () => {
     try {
       const newUser = { name: nome, email, password, role: 'customer' };
@@ -58,22 +47,26 @@ function Register({ history }) {
       console.log(request);
       setEmailUser(request.data.email);
       setNameUser(request.data.name);
+      history.push('/customer/products');
     } catch (err) {
+      setNotValid(true);
       console.log(err);
+      if (err.response.data.message === 'This username already exists') {
+        setMessageError('Nome de usuário já existe');
+      }
+      if (err.response.data.message === 'This email already exists') {
+        setMessageError('Esse email já existe');
+      }
     }
   };
-
   const handleSubmit = async (e) => {
     e.preventDefault();
-
     if (validate) {
       await createdUser();
-      history.push('/customer/products');
     } else {
       setNotValid(true);
     }
   };
-
   return (
     <section>
       <h1>Cadastro</h1>
@@ -137,11 +130,9 @@ function Register({ history }) {
     </section>
   );
 }
-
 Register.propTypes = {
   history: PropTypes.shape({
     push: PropTypes.func,
   }).isRequired,
 };
-
 export default Register;
