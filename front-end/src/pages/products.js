@@ -1,15 +1,21 @@
-import React, { useContext, useState } from 'react';
+import React, { useEffect, useContext, useState } from 'react';
 import PropTypes from 'prop-types';
 import Header from '../components/header';
 import MyContext from '../context/MyContext';
+import { getUser } from '../services/localStorage';
 
 function Products() {
-  const { produtos } = useContext(MyContext);
+  const { produtos, prodAll } = useContext(MyContext);
   /* const xablau = produtos.forEach(() => {
     quantidadeSoma
   }); */
   const [count, setCount] = useState(0);
   const img = '100px';
+
+  useEffect(() => {
+    const { token } = getUser();
+    prodAll(token);
+  }, []);
 
   const increment1 = (e) => {
     const { name } = e.target;
@@ -43,6 +49,11 @@ function Products() {
         {produtos?.map((p, index) => (
           <section key={ p.id }>
             <div>
+              <p
+                data-testid={ `customer_products__element-card-price-${p.id}` }
+              >
+                { p.price }
+              </p>
               <img
                 src={ p.urlImage }
                 alt={ p.name }
@@ -50,16 +61,11 @@ function Products() {
                 height={ img }
                 data-testid={ `customer_products__img-card-bg-image-${p.id}` }
               />
-              <p
+              <h1
                 data-testid={ `customer_products__element-card-title-${p.id}` }
               >
                 {p.name}
-              </p>
-              <p
-                data-testid={ `customer_products__element-card-price-${p.id}` }
-              >
-                { p.price }
-              </p>
+              </h1>
               <button
                 onClick={ decrement1 }
                 name={ `quantidadeSoma${index}` }

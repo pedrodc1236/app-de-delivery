@@ -1,7 +1,6 @@
-import React, { /* useEffect, */ useEffect, useMemo, useState } from 'react';
+import React, { /* useEffect, */ useMemo, useState } from 'react';
 import PropTypes from 'prop-types';
 import { productsList } from '../services/axios';
-import { getUser } from '../services/localStorage';
 
 // import fetchProducts from '../services/productsApi';
 
@@ -31,11 +30,6 @@ function AppProvider({ children }) {
     setProdutos(result);
   };
 
-  useEffect(() => {
-    const { token } = getUser();
-    prodAll(token);
-  }, []);
-
   const contextValue = useMemo(() => ({
     emailUser,
     setEmailUser,
@@ -45,6 +39,7 @@ function AppProvider({ children }) {
     setProdutos,
     loading,
     setLoading,
+    prodAll,
   }), [emailUser, nameUser, produtos, loading]);
 
   return (
