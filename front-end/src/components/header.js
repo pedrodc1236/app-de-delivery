@@ -3,15 +3,20 @@ import { useLocation, Redirect } from 'react-router-dom';
 import MyContext from '../context/MyContext'; */
 import PropTypes from 'prop-types';
 import { useHistory } from 'react-router-dom';
-import React, { useContext } from 'react';
-import MyContext from '../context/MyContext';
+// import React, { useContext } from 'react';
+import React from 'react';
+// import MyContext from '../context/MyContext';
+import { cleanLocalStorage, getUser } from '../services/localStorage';
 
 function Header() {
-  const {
-    nameUser,
-  } = useContext(MyContext);
-
   const history = useHistory();
+
+  const { name } = getUser();
+
+  /*   const {
+    nameUser,
+  } = useContext(MyContext); */
+
   const goProducts = (e) => {
     e.preventDefault();
     history.push('/login');
@@ -29,6 +34,7 @@ function Header() {
 
   const leave = (e) => {
     e.preventDefault();
+    cleanLocalStorage();
     history.push('/login');
   };
 
@@ -53,7 +59,7 @@ function Header() {
         onClick={ goProfile }
         data-testid="customer_products__element-navbar-user-full-name"
       >
-        { nameUser }
+        { name }
       </button>
       <button
         type="button"

@@ -1,5 +1,6 @@
-import React, { useMemo, useState } from 'react';
+import React, { /* useEffect, */ useMemo, useState } from 'react';
 import PropTypes from 'prop-types';
+import { productsList } from '../services/axios';
 
 // import fetchProducts from '../services/productsApi';
 
@@ -8,6 +9,8 @@ import MyContext from './MyContext';
 function AppProvider({ children }) {
   const [emailUser, setEmailUser] = useState('');
   const [nameUser, setNameUser] = useState('');
+  const [produtos, setProdutos] = useState([]);
+  const [loading, setLoading] = useState(false);
 
   // const [products, setProducts] = useState([]);
 
@@ -22,12 +25,22 @@ function AppProvider({ children }) {
   //   getProducts,
   // };
 
+  const prodAll = async (t) => {
+    const result = await productsList(t);
+    setProdutos(result);
+  };
+
   const contextValue = useMemo(() => ({
     emailUser,
     setEmailUser,
     nameUser,
     setNameUser,
-  }), [emailUser, nameUser]);
+    produtos,
+    setProdutos,
+    loading,
+    setLoading,
+    prodAll,
+  }), [emailUser, nameUser, produtos, loading]);
 
   return (
     <MyContext.Provider value={ contextValue }>
