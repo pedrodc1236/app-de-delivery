@@ -8,6 +8,7 @@ const productRoute = require('../routes/productRoute');
 const saleRoute = require('../routes/saleRoute');
 const salesProductRoute = require('../routes/salesProductRoute');
 const userRoute = require('../routes/userRoute');
+const imageRouter = require('../routes/imageRouter');
 
 const errorHandlerMiddleware = require('../middlewares/errorHandlerMiddleware');
 
@@ -23,6 +24,7 @@ app.use('/products', productRoute);
 app.use('/sales', saleRoute);
 app.use('/sales_products', salesProductRoute);
 app.use('/users', userRoute);
+app.use(imageRouter);
 
 app.use(errorHandlerMiddleware);
 
