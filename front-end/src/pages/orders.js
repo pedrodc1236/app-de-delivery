@@ -28,17 +28,17 @@ function Orders() {
               <div
                 data-testid={ `customer_orders__element-order-id-${order.id}` }
               >
-                <span>
+                <p>
                   Pedido
-                </span>
-                <span>
+                </p>
+                <p>
                   {String(order.id).padStart(ORDER_ID_MAXLENGTH, 0)}
-                </span>
+                </p>
               </div>
               <div
                 data-testid={ `customer_orders__element-delivery-status-${order.id}` }
               >
-                <span>{order.status}</span>
+                <p>{order.status}</p>
               </div>
               <div>
                 <div

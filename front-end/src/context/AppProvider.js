@@ -48,7 +48,7 @@ function AppProvider({ children }) {
     prodAll,
     orders,
     getOrders,
-  }), [emailUser, nameUser, produtos, loading]);
+  }), [emailUser, nameUser, produtos, loading, orders]);
 
   return (
     <MyContext.Provider value={ contextValue }>
