@@ -15,6 +15,7 @@ function Products() {
   useEffect(() => {
     const { token } = getUser();
     prodAll(token);
+  // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   const increment1 = (e) => {
@@ -52,7 +53,7 @@ function Products() {
               <p
                 data-testid={ `customer_products__element-card-price-${p.id}` }
               >
-                { p.price }
+                { p.price.replace('.', ',') }
               </p>
               <img
                 src={ p.urlImage }
