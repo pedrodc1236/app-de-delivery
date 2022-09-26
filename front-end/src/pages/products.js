@@ -6,11 +6,23 @@ import { getUser } from '../services/localStorage';
 
 function Products() {
   const { produtos, prodAll } = useContext(MyContext);
-  /* const xablau = produtos.forEach(() => {
-    quantidadeSoma
-  }); */
+  const [cart, setCart] = useState([]);
   const [count, setCount] = useState(0);
   const img = '100px';
+
+  const addToCart = (product) => {
+    const productExists = cart.find((item) => item.id === product.id);
+    console.log(count);
+    if (productExists) {
+      setCart(
+        cart.map((item) => (item.id === product.id
+          ? { ...productExists, Quantidade: { ...productExists.price +  productExists.price } }
+          : item)),
+      );
+    } else {
+      setCart([...cart, { ...product }]);
+    }
+  };
 
   useEffect(() => {
     const { token } = getUser();
@@ -18,12 +30,17 @@ function Products() {
   // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
-  const increment1 = (e) => {
+  useEffect(() => {
+    localStorage.setItem('cart', JSON.stringify(cart));
+  }, [cart]);
+
+  const increment1 = (e, p) => {
     const { name } = e.target;
     setCount((prevState) => ({
       ...prevState,
       [name]: prevState[name] ? prevState[name] + 1 : 1,
     }));
+    addToCart(p);
   };
 
   const decrement1 = (e) => {
@@ -35,7 +52,8 @@ function Products() {
     }));
   };
 
-  function handleChange(e) {
+  function handleChange(e, p) {
+    addToCart(p);
     const { name, value } = e.target;
     setCount((prevState) => ({
       ...prevState,
@@ -84,7 +102,7 @@ function Products() {
                 data-testid={ `customer_products__input-card-quantity-${p.id}` }
               />
               <button
-                onClick={ increment1 }
+                onClick={ (e) => increment1(e, p) }
                 name={ `quantidadeSoma${index}` }
                 data-testid={ `customer_products__button-card-add-item-${p.id}` }
                 type="button"
