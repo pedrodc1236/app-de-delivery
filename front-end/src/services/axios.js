@@ -17,4 +17,11 @@ export const orderList = async (t) => {
   return result.data;
 };
 
+export const orderById = async (t, id) => {
+  const result = await axiosApi
+    .get(`/sales/:${id}`, { headers: { Authorization: t } })
+    .catch((error) => error.response.data);
+  return result.data;
+};
+
 export default axiosApi;
