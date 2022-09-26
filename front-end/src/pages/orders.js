@@ -5,6 +5,8 @@ import Header from '../components/header';
 import { getUser } from '../services/localStorage';
 import MyContext from '../context/MyContext';
 
+const moment = require('moment');
+
 const ORDER_ID_MAXLENGTH = 4;
 
 function Orders() {
@@ -44,7 +46,7 @@ function Orders() {
                 <div
                   data-testid={ `customer_orders__element-order-date-${order.id}` }
                 >
-                  {order.saleDate}
+                  { moment(order.saleDate).format('DD/MM/YY') }
                 </div>
                 <div
                   data-testid={ `customer_orders__element-card-price-${order.id}` }
