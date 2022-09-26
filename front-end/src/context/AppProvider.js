@@ -1,6 +1,6 @@
 import React, { /* useEffect, */ useMemo, useState } from 'react';
 import PropTypes from 'prop-types';
-import { productsList } from '../services/axios';
+import { productsList, orderList } from '../services/axios';
 
 // import fetchProducts from '../services/productsApi';
 
@@ -11,6 +11,7 @@ function AppProvider({ children }) {
   const [nameUser, setNameUser] = useState('');
   const [produtos, setProdutos] = useState([]);
   const [loading, setLoading] = useState(false);
+  const [orders, setOrders] = useState([]);
 
   // const [products, setProducts] = useState([]);
 
@@ -30,6 +31,11 @@ function AppProvider({ children }) {
     setProdutos(result);
   };
 
+  const getOrders = async (t) => {
+    const result = await orderList(t);
+    setOrders(result);
+  };
+
   const contextValue = useMemo(() => ({
     emailUser,
     setEmailUser,
@@ -40,6 +46,8 @@ function AppProvider({ children }) {
     loading,
     setLoading,
     prodAll,
+    orders,
+    getOrders,
   }), [emailUser, nameUser, produtos, loading]);
 
   return (
