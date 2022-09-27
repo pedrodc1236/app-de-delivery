@@ -15,11 +15,8 @@ export const getUser = () => {
 };
 
 // add fav
-export const addFavorite = (item) => {
-  const items = JSON.parse(localStorage.getItem(CART)) || [];
-  const newItem = [...items, item];
-  localStorage.setItem(CART, JSON.stringify(newItem));
-};
+export const addFavorite = (item) => localStorage
+  .setItem(CART, JSON.stringify(item)) || [];
 
 // remove fav
 export const removeFromFavorite = (id) => {
