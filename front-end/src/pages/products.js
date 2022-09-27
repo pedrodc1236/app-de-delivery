@@ -4,28 +4,31 @@ import Header from '../components/header';
 import MyContext from '../context/MyContext';
 import { addFavorite, getUser } from '../services/localStorage';
 
-function Products() {
+function Products({ history }) {
   const { produtos, prodAll } = useContext(MyContext);
   const [cart, setCart] = useState(JSON.parse(localStorage.getItem('cart')) || []);
-  const [count, setCount] = useState(0);
+  const [count, setCount] = useState(JSON.parse(localStorage.getItem('count')) || []);
+  const [sumTotal, setSumTotal] = useState(JSON
+    .parse(localStorage.getItem('sumTotal')) || 0);
   const img = '100px';
 
   const addToCart = (product, countProduct) => {
     const existsProduct = cart.find((item) => item.id === product.id);
-    console.log(count);
-
     // editar
     if (existsProduct) {
       setCart(
         cart.map((item) => (item.id === product.id
           ? { ...existsProduct,
-            quantity: countProduct } : item)),
+            quantity: countProduct,
+            subTotal: (Number(product.price) * countProduct).toFixed(2) } : item)),
       );
     }
 
     // adicionar
     if (!existsProduct && countProduct > 0) {
-      setCart([...cart, { ...product, quantity: countProduct }]);
+      setCart([...cart, { ...product,
+        quantity: countProduct,
+        subTotal: (Number(product.price) * countProduct).toFixed(2) }]);
     }
 
     // remover
@@ -44,8 +47,10 @@ function Products() {
   }, []);
 
   useEffect(() => {
+    localStorage.setItem('sumTotal', JSON.stringify(sumTotal));
     localStorage.setItem('cart', JSON.stringify(cart));
-  }, [cart]);
+    localStorage.setItem('count', JSON.stringify(count));
+  }, [sumTotal, count, cart]);
 
   function handleChange(e, p, operador) {
     const { value } = e.target;
@@ -59,16 +64,36 @@ function Products() {
     addToCart(p, quantityProduct);
   }
 
-  const increment1 = (e, produto) => {
+  const funcSumTotal = async (valor) => {
+    const valorBebida = parseFloat(valor);
+    const arrayAllPrices = await cart.map((p) => parseFloat(p.subTotal));
+    const reducerSumTotal = await arrayAllPrices
+      .reduce((acc, curr) => acc + curr, valorBebida);
+
+    setSumTotal(await reducerSumTotal.toFixed(2));
+  };
+
+  const funcSubTotal = async (valor) => {
+    const valorBebida = parseFloat(valor);
+    const arrayAllPrices = await cart.map((p) => parseFloat(p.subTotal));
+    const reducerSumTotal = await arrayAllPrices
+      .reduce((acc, curr) => curr - acc, valorBebida);
+
+    setSumTotal(await reducerSumTotal.toFixed(2));
+  };
+
+  const increment1 = async (e, produto) => {
     handleChange(e, produto, '+');
     const { name } = e.target;
     setCount((prevState) => ({
       ...prevState,
       [name]: prevState[name] ? prevState[name] + 1 : 1,
     }));
+    localStorage.setItem('count', JSON.stringify(count));
+    await funcSumTotal(produto.price);
   };
 
-  const decrement1 = (e, produto) => {
+  const decrement1 = async (e, produto) => {
     handleChange(e, produto, '-');
     const { name } = e.target;
     const min = -1;
@@ -76,6 +101,8 @@ function Products() {
       ...prevState,
       [name]: prevState[name] ? prevState[name] - 1 : min,
     }));
+    localStorage.setItem('count', JSON.stringify(count));
+    await funcSubTotal(produto.price);
   };
 
   return (
@@ -137,9 +164,10 @@ function Products() {
         data-testid="customer_products__checkout-bottom-value"
         type="button"
         name="total-price"
+        onClick={ () => history.push('/customer/checkout') }
       >
         Ver Carrinho:
-        <span placeholder="0">Inserir Total Dinâmico</span>
+        <span placeholder="0">{ sumTotal }</span>
       </button>
     </div>
   );

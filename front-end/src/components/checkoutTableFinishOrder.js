@@ -1,6 +1,9 @@
-import React from 'react';
+import React, { useState } from 'react';
 
 function CheckoutTableFinishOrder() {
+  const [cart] = useState(JSON.parse(localStorage.getItem('cart')) || []);
+  const [sumTotal] = useState(JSON.parse(localStorage.getItem('sumTotal')) || 0);
+
   return (
     <section>
       <table>
@@ -15,17 +18,39 @@ function CheckoutTableFinishOrder() {
           </tr>
         </thead>
         <tbody>
-          <tr>
-            <td>Item Aqui</td>
-            <td>Descricao aqui</td>
-            <td>Quantidade aqui</td>
-            <td>Valor unitario aqui</td>
-            <td>sub-total aqui</td>
-            <td>Btn Remover aqui</td>
-          </tr>
+          {
+            cart.map((product, index) => (
+              <tr
+                key={ index }
+              >
+                <td>
+                  { index + 1 }
+                </td>
+                <td>
+                  { product.name }
+                </td>
+                <td>
+                  { product.quantity }
+                </td>
+                <td>
+                  { product.price }
+                </td>
+                <td>
+                  { product.subTotal }
+                </td>
+                <td>
+                  <button
+                    type="button"
+                  >
+                    Remover
+                  </button>
+                </td>
+              </tr>
+            ))
+          }
         </tbody>
       </table>
-      <div>{`Total: ${0 + 0}`}</div>
+      <div>{`Total: ${sumTotal}`}</div>
     </section>
   );
 }
