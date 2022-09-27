@@ -50,7 +50,7 @@ function Products({ history }) {
     localStorage.setItem('sumTotal', JSON.stringify(sumTotal));
     localStorage.setItem('cart', JSON.stringify(cart));
     localStorage.setItem('count', JSON.stringify(count));
-  }, [cart, count, sumTotal]);
+  }, [sumTotal, count, cart]);
 
   function handleChange(e, p, operador) {
     const { value } = e.target;
@@ -64,10 +64,20 @@ function Products({ history }) {
     addToCart(p, quantityProduct);
   }
 
-  const funcSumTotal = async () => {
-    const arrayAllPrices = await cart.map((p) => Number(p.subTotal));
+  const funcSumTotal = async (valor) => {
+    const valorBebida = parseFloat(valor);
+    const arrayAllPrices = await cart.map((p) => parseFloat(p.subTotal));
     const reducerSumTotal = await arrayAllPrices
-      .reduce((acc, curr) => acc + curr, 0);
+      .reduce((acc, curr) => acc + curr, valorBebida);
+
+    setSumTotal(await reducerSumTotal.toFixed(2));
+  };
+
+  const funcSubTotal = async (valor) => {
+    const valorBebida = parseFloat(valor);
+    const arrayAllPrices = await cart.map((p) => parseFloat(p.subTotal));
+    const reducerSumTotal = await arrayAllPrices
+      .reduce((acc, curr) => curr - acc, valorBebida);
 
     setSumTotal(await reducerSumTotal.toFixed(2));
   };
@@ -80,7 +90,7 @@ function Products({ history }) {
       [name]: prevState[name] ? prevState[name] + 1 : 1,
     }));
     localStorage.setItem('count', JSON.stringify(count));
-    await funcSumTotal();
+    await funcSumTotal(produto.price);
   };
 
   const decrement1 = async (e, produto) => {
@@ -92,7 +102,7 @@ function Products({ history }) {
       [name]: prevState[name] ? prevState[name] - 1 : min,
     }));
     localStorage.setItem('count', JSON.stringify(count));
-    await funcSumTotal();
+    await funcSubTotal(produto.price);
   };
 
   return (
