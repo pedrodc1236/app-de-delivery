@@ -19,7 +19,14 @@ export const orderList = async (t) => {
 
 export const orderById = async (t, id) => {
   const result = await axiosApi
-    .get(`/sales/:${id}`, { headers: { Authorization: t } })
+    .get(`/sales/${id}`, { headers: { Authorization: t } })
+    .catch((error) => error.response.data);
+  return result.data;
+};
+
+export const usersById = async (t, id) => {
+  const result = await axiosApi
+    .get(`/users/${id}`, { headers: { Authorization: t } })
     .catch((error) => error.response.data);
   return result.data;
 };
