@@ -35,6 +35,13 @@ const saleService = {
     return sales;
   },
 
+  async getAllByUser(userId) {
+    const sales = await Sale.findAll(({
+      where: { userId },
+    }));
+    return sales;
+  },
+
   async getById(id) {
     const sale = await Sale.findByPk(id);
 
