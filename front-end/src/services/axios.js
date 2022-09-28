@@ -12,7 +12,7 @@ export const productsList = async (t) => {
 };
 export const orderList = async (t) => {
   const result = await axiosApi
-    .get('/sales', { headers: { Authorization: t } })
+    .get('/sales/customer', { headers: { Authorization: t } })
     .catch((error) => error.response.data);
   return result.data;
 };
