@@ -1,4 +1,5 @@
 const saleService = require('../services/saleService');
+const userService = require('../services/userService');
 
 const saleController = {
   async create(req, res) {
@@ -11,6 +12,12 @@ const saleController = {
   async getAll(_req, res) {
     const all = await saleService.getAll();
     res.status(200).json(all);
+  },
+
+  async getAllByUser(req, res) {
+    const userId = await userService.getByEmail(req.user);
+    const allByUser = await saleService.getAllByUser(userId);
+    res.status(200).json(allByUser);
   },
 
   async getById(req, res) {
