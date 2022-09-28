@@ -1,8 +1,8 @@
-import React, { /* useEffect, */ useMemo, useState } from 'react';
+import React, { useEffect, useMemo, useState } from 'react';
 import PropTypes from 'prop-types';
 import { productsList } from '../services/axios';
-
 // import fetchProducts from '../services/productsApi';
+import { getUser } from '../services/localStorage';
 
 import MyContext from './MyContext';
 
@@ -11,27 +11,31 @@ function AppProvider({ children }) {
   const [nameUser, setNameUser] = useState('');
   const [produtos, setProdutos] = useState([]);
   const [loading, setLoading] = useState(false);
-
-  // const [products, setProducts] = useState([]);
-
-  // async function getProducts() {
-  //   const { product } = await fetchProducts();
-  //   setProducts(product);
-  // }
-
-  // const contextValue = {
-  //   products,
-  //   setProducts,
-  //   getProducts,
-  // };
-
+  const [quantity, setQuantity] = useState(JSON
+    .parse(localStorage.getItem('count')) || {});
+  const [valueTotal, setValueTotal] = useState(JSON
+    .parse(localStorage.getItem('total')) || 0);
   const prodAll = async (t) => {
     const result = await productsList(t);
-    setProdutos(result);
+    /* result.push({ quantidade: 0 }); */
+    const newProduct = result.map((each) => ({
+      ...each,
+      quantity: 0,
+    }));
+    setProdutos(newProduct);
   };
+
+  useEffect(() => {
+    const { token } = getUser();
+    prodAll(token);
+  }, []);
 
   const contextValue = useMemo(() => ({
     emailUser,
+    quantity,
+    setQuantity,
+    valueTotal,
+    setValueTotal,
     setEmailUser,
     nameUser,
     setNameUser,
@@ -40,7 +44,7 @@ function AppProvider({ children }) {
     loading,
     setLoading,
     prodAll,
-  }), [emailUser, nameUser, produtos, loading]);
+  }), [emailUser, nameUser, produtos, loading, quantity, valueTotal]);
 
   return (
     <MyContext.Provider value={ contextValue }>
