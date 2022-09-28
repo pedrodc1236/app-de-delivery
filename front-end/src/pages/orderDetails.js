@@ -18,9 +18,12 @@ function OrdersDetails() {
   // console.log(replacedId);
   useEffect(() => {
     const { token } = getUser();
-    getOrderById(token, id);
-    // const userId = orderDetails.sellerId;
-    getUserById(token, id);
+    const fetchData = async () => {
+      await getOrderById(token, id);
+    };
+    fetchData();
+    const userId = orderDetails.sellerId;
+    getUserById(token, userId);
   // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
