@@ -38,16 +38,19 @@ function AppProvider({ children }) {
     setOrders(result);
   };
 
-  const getOrderById = async (t, id) => {
-    const result = await orderById(t, id);
-    setOrderDetails(result);
+  const getOrderByIdAndSeller = async (t, id) => {
+    const resultOrders = await orderById(t, id);
+    const { sellerId } = resultOrders;
+    const resultUsers = await usersById(t, sellerId);
+    setOrderDetails(resultOrders);
+    setUserById(resultUsers);
   };
 
-  const getUserById = async (t, id) => {
-    const result = await usersById(t, id);
-    console.log(result);
-    setUserById(result);
-  };
+  // const getUserById = async (t, id) => {
+  //   const resultA = await usersById(t, id);
+  //   console.log(result);
+  //   setUserById(result);
+  // };
 
   const contextValue = useMemo(() => ({
     emailUser,
@@ -61,9 +64,8 @@ function AppProvider({ children }) {
     prodAll,
     orders,
     getOrders,
-    getOrderById,
+    getOrderByIdAndSeller,
     orderDetails,
-    getUserById,
     userById,
   }), [emailUser, nameUser, produtos, loading, orders, orderDetails, userById]);
 
