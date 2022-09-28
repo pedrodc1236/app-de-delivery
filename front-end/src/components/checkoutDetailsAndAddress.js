@@ -20,6 +20,7 @@ function CheckoutDetailsAndAddress() {
       >
         P. Vendedora Responsável:
         <select
+          data-testid="customer_checkout__select-seller"
           id="seller-input"
           name="seller"
           value={ seller }
@@ -35,6 +36,7 @@ function CheckoutDetailsAndAddress() {
       >
         Endereço
         <input
+          data-testid="customer_checkout__input-address"
           id="address-input"
           name="address"
           value={ address }
@@ -47,6 +49,7 @@ function CheckoutDetailsAndAddress() {
       >
         Número
         <input
+          data-testid="customer_checkout__input-address-number"
           id="addressNumber-input"
           name="addressNumber"
           value={ addressNumber }
@@ -55,6 +58,7 @@ function CheckoutDetailsAndAddress() {
         />
       </label>
       <button
+        data-testid="customer_checkout__button-submit-order"
         type="button"
       >
         FINALIZAR PEDIDO

@@ -3,7 +3,7 @@ import React, { useState } from 'react';
 function CheckoutTableFinishOrder() {
   const [cart] = useState(JSON.parse(localStorage.getItem('cart')) || []);
   const [sumTotal] = useState(JSON.parse(localStorage.getItem('sumTotal')) || 0);
-
+  // data-testid={ }
   return (
     <section>
       <table>
@@ -23,23 +23,46 @@ function CheckoutTableFinishOrder() {
               <tr
                 key={ index }
               >
-                <td>
+                <td
+                  data-testid={
+                    `customer_checkout__element-order-table-item-number-${index}`
+                  }
+                >
                   { index + 1 }
                 </td>
-                <td>
+                <td
+                  data-testid={
+                    `customer_checkout__element-order-table-name-${index}`
+                  }
+                >
                   { product.name }
                 </td>
-                <td>
+                <td
+                  data-testid={
+                    `customer_checkout__element-order-table-quantity-${index}`
+                  }
+                >
                   { product.quantity }
                 </td>
-                <td>
-                  { product.price }
+                <td
+                  data-testid={
+                    `customer_checkout__element-order-table-unit-price-${index}`
+                  }
+                >
+                  { product.price.replace(/\./, ',') }
                 </td>
-                <td>
-                  { product.subTotal }
+                <td
+                  data-testid={
+                    `customer_checkout__element-order-table-sub-total-${index}`
+                  }
+                >
+                  { product.subTotal.replace(/\./, ',') }
                 </td>
                 <td>
                   <button
+                    data-testid={
+                      `customer_checkout__element-order-table-remove-${index}`
+                    }
                     type="button"
                   >
                     Remover
@@ -50,7 +73,11 @@ function CheckoutTableFinishOrder() {
           }
         </tbody>
       </table>
-      <div>{`Total: ${sumTotal}`}</div>
+      <div
+        data-testid="customer_checkout__element-order-total-price"
+      >
+        {`Total: ${sumTotal}`}
+      </div>
     </section>
   );
 }
