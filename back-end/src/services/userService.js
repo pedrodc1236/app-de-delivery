@@ -29,6 +29,11 @@ const userService = {
     // }
     return user;
   },
+
+  async getByEmail(email) {
+    const { id } = await User.findOne({ where: { email } });
+    return id;
+  },
 };
 
 module.exports = userService;
