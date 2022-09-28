@@ -9,21 +9,13 @@ const ORDER_ID_MAXLENGTH = 4;
 const moment = require('moment');
 
 function OrdersDetails() {
-  const { orderDetails, getOrderById, getUserById, userById } = useContext(MyContext);
+  const { orderDetails, getOrderByIdAndSeller, userById } = useContext(MyContext);
 
   const { id } = useParams();
 
-  // const idLocation = useLocation();
-  // const replacedId = idLocation.pathname.replace(/\D/g, '');
-  // console.log(replacedId);
   useEffect(() => {
     const { token } = getUser();
-    const fetchData = async () => {
-      await getOrderById(token, id);
-    };
-    fetchData();
-    const userId = orderDetails.sellerId;
-    getUserById(token, userId);
+    getOrderByIdAndSeller(token, id);
   // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
