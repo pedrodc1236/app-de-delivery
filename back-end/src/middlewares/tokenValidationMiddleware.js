@@ -8,7 +8,6 @@ const authService = require('../services/authService');
  */
 const tokenValidationMiddleware = async (req, res, next) => {
   const token = req.headers.authorization;
-  console.log(token);
   const validator = await authService.validateAuthorization(token);
   const user = await authService.readToken(validator);
   req.user = user;
