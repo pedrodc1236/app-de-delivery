@@ -37,7 +37,13 @@ function Login({ history }) {
           request.data.token,
         );
         setNotFound(false);
-        history.push('/customer/products');
+        if (request.data.role === 'seller') {
+          history.push('/seller/orders');
+        } else if (request.data.role === 'customer') {
+          history.push('/customer/products');
+        } else if (request.data.role === 'administrator') {
+          history.push('/admin/manage');
+        }
       }
     } catch (err) {
       if (err.response.status === notFoundNumber) {
