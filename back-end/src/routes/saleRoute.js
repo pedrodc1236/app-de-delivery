@@ -10,6 +10,8 @@ route.post('/', authMiddleware, saleController.create);
 
 route.get('/', authMiddleware, saleController.getAll);
 
+route.get('/customer', authMiddleware, saleController.getAllByUser);
+
 route.get('/:id', authMiddleware, saleController.getById);
 
 route.put('/:id', authMiddleware, saleController.update);

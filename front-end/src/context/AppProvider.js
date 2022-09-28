@@ -1,6 +1,6 @@
 import React, { /* useEffect, */ useMemo, useState } from 'react';
 import PropTypes from 'prop-types';
-import { productsList } from '../services/axios';
+import { productsList, orderList, orderById, usersById } from '../services/axios';
 
 // import fetchProducts from '../services/productsApi';
 
@@ -11,6 +11,9 @@ function AppProvider({ children }) {
   const [nameUser, setNameUser] = useState('');
   const [produtos, setProdutos] = useState([]);
   const [loading, setLoading] = useState(false);
+  const [orders, setOrders] = useState([]);
+  const [orderDetails, setOrderDetails] = useState('');
+  const [userById, setUserById] = useState('');
 
   // const [products, setProducts] = useState([]);
 
@@ -30,6 +33,22 @@ function AppProvider({ children }) {
     setProdutos(result);
   };
 
+  const getOrders = async (t) => {
+    const result = await orderList(t);
+    setOrders(result);
+  };
+
+  const getOrderById = async (t, id) => {
+    const result = await orderById(t, id);
+    setOrderDetails(result);
+  };
+
+  const getUserById = async (t, id) => {
+    const result = await usersById(t, id);
+    console.log(result);
+    setUserById(result);
+  };
+
   const contextValue = useMemo(() => ({
     emailUser,
     setEmailUser,
@@ -40,7 +59,13 @@ function AppProvider({ children }) {
     loading,
     setLoading,
     prodAll,
-  }), [emailUser, nameUser, produtos, loading]);
+    orders,
+    getOrders,
+    getOrderById,
+    orderDetails,
+    getUserById,
+    userById,
+  }), [emailUser, nameUser, produtos, loading, orders, orderDetails, userById]);
 
   return (
     <MyContext.Provider value={ contextValue }>

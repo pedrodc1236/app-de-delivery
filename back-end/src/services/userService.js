@@ -1,5 +1,5 @@
 const { User } = require('../database/models');
-// const { ValidationError, NotFoundError } = require('../middlewares/errors');
+// const { NotFoundError } = require('../middlewares/errors');
 
 const userService = {
 
@@ -20,6 +20,19 @@ const userService = {
     if (userEmail) {
       return { code: 409, message: 'This email already exists' };
     }
+  },
+
+  async getById(id) {
+    const user = await User.findOne({ where: { id } });
+    // if (!user) {
+    //   return NotFoundError('User not found');
+    // }
+    return user;
+  },
+
+  async getByEmail(email) {
+    const { id } = await User.findOne({ where: { email } });
+    return id;
   },
 };
 

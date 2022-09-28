@@ -19,12 +19,12 @@ function Header() {
 
   const goProducts = (e) => {
     e.preventDefault();
-    history.push('/login');
+    history.push('/customer/products');
   };
 
   const myRequests = (e) => {
     e.preventDefault();
-    history.push('/login');
+    history.push('/customer/orders');
   };
 
   const goProfile = (e) => {
