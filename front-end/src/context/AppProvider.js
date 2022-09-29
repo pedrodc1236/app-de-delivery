@@ -37,7 +37,7 @@ function AppProvider({ children }) {
     setProdutos(newProduct);
   };
 
-const getOrders = async (t) => {
+  const getOrders = async (t) => {
     const result = await orderList(t);
     setOrders(result);
   };
@@ -82,25 +82,16 @@ const getOrders = async (t) => {
   }), [
     emailUser,
     nameUser,
-    produtos,
     loading,
     orders,
     orderDetails,
     userById,
     productsById,
     salesProductById,
-  }), [
-    emailUser,
-    nameUser,
     produtos,
-    loading,
     valueTotal,
     cart,
     total,
-    loading,
-    orders,
-    orderDetails,
-    userById
   ]);
 
   return (
