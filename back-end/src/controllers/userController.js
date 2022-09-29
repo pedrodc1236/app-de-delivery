@@ -6,6 +6,12 @@ const userController = {
     res.status(200).json(all);
   },
 
+  async getById(req, res) {
+    const { id } = req.params;
+    const user = await userService.getById(id);
+    return res.status(200).json(user);
+  },
+
   // async query(req, res) {
   //   const { name, email } = req.query;
 

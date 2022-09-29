@@ -37,8 +37,8 @@ const authService = {
   async readToken(token) {
     const secret = fs.readFileSync('./jwt.evaluation.key', 'utf8');
     try {
-      const { data } = jwt.verify(token, secret);
-      return data;
+      const { email } = jwt.verify(token, secret);
+      return email;
     } catch (error) {
       UnauthorizedError('Expired or invalid token');
     }
