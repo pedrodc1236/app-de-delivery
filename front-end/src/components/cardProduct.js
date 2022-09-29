@@ -89,7 +89,7 @@ function CardProduct({ id, nameP, urlImage, priceProd, index }) {
   return (
     <div>
       <p
-        data-testid={ `customer_products__element-card-priceProd-${id}` }
+        data-testid={ `customer_products__element-card-price-${id}` }
         key={ id }
       >
         {`R$ ${priceProd.replace('.', ',')}`}
