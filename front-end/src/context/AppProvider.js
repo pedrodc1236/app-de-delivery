@@ -1,6 +1,14 @@
 import React, { useMemo, useState } from 'react';
 import PropTypes from 'prop-types';
-import { productsList, orderList, orderById, usersById } from '../services/axios';
+import {
+  productsList,
+  orderList,
+  orderById,
+  usersById,
+  salesProductsById,
+  productById,
+} from '../services/axios';
+
 // import fetchProducts from '../services/productsApi';
 // import { getUser } from '../services/localStorage';
 import MyContext from './MyContext';
@@ -17,18 +25,8 @@ function AppProvider({ children }) {
   const [orders, setOrders] = useState([]);
   const [orderDetails, setOrderDetails] = useState('');
   const [userById, setUserById] = useState('');
-  // const [products, setProducts] = useState([]);
-
-  // async function getProducts() {
-  //   const { product } = await fetchProducts();
-  //   setProducts(product);
-  // }
-
-  // const contextValue = {
-  //   products,
-  //   setProducts,
-  //   getProducts,
-  // };
+  const [salesProductById, setSalesProductById] = useState([]);
+  const [productsById, setProductsById] = useState([]);
 
   const prodAll = async (t) => {
     const result = await productsList(t);
@@ -39,25 +37,23 @@ function AppProvider({ children }) {
     setProdutos(newProduct);
   };
 
-  // useEffect(() => {
-  //   const { token } = getUser();
-  //   prodAll(token);
-  // }, []);
-
 const getOrders = async (t) => {
     const result = await orderList(t);
     setOrders(result);
   };
 
-  const getOrderById = async (t, id) => {
-    const result = await orderById(t, id);
-    setOrderDetails(result);
-  };
+  const getOrderByIdAndSeller = async (t, id) => {
+    const resultOrders = await orderById(t, id);
+    const { sellerId } = resultOrders;
+    const resultUsers = await usersById(t, sellerId);
+    const resultSalesProducts = await salesProductsById(t, id);
+    const products = await productById(t, id);
+    console.log(products);
 
-  const getUserById = async (t, id) => {
-    const result = await usersById(t, id);
-    console.log(result);
-    setUserById(result);
+    setOrderDetails(resultOrders);
+    setUserById(resultUsers);
+    setSalesProductById(resultSalesProducts);
+    setProductsById(products);
   };
 
   const contextValue = useMemo(() => ({
@@ -78,10 +74,21 @@ const getOrders = async (t) => {
     setTotal,
     orders,
     getOrders,
-    getOrderById,
+    getOrderByIdAndSeller,
     orderDetails,
-    getUserById,
     userById,
+    productsById,
+    salesProductById,
+  }), [
+    emailUser,
+    nameUser,
+    produtos,
+    loading,
+    orders,
+    orderDetails,
+    userById,
+    productsById,
+    salesProductById,
   }), [
     emailUser,
     nameUser,

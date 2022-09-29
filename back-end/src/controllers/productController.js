@@ -12,6 +12,12 @@ const productController = {
     return res.status(200).json(products);
   },
 
+  async getAllBySale(req, res) {
+    const { id } = req.params;
+    const products = await productService.getAllBySale(id);
+    return res.status(200).json(products);
+  },
+
   async getById(req, res) {
     const { id } = req.params;
     const product = await productService.getById(id);
