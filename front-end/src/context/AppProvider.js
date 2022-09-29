@@ -9,8 +9,6 @@ import {
   productById,
 } from '../services/axios';
 
-// import fetchProducts from '../services/productsApi';
-// import { getUser } from '../services/localStorage';
 import MyContext from './MyContext';
 
 function AppProvider({ children }) {
@@ -25,6 +23,7 @@ function AppProvider({ children }) {
   const [orders, setOrders] = useState([]);
   const [orderDetails, setOrderDetails] = useState('');
   const [userById, setUserById] = useState('');
+  const [sellers, setSellers] = useState([]);
   const [salesProductById, setSalesProductById] = useState([]);
   const [productsById, setProductsById] = useState([]);
 
@@ -48,12 +47,15 @@ function AppProvider({ children }) {
     const resultUsers = await usersById(t, sellerId);
     const resultSalesProducts = await salesProductsById(t, id);
     const products = await productById(t, id);
-    console.log(products);
-
     setOrderDetails(resultOrders);
     setUserById(resultUsers);
     setSalesProductById(resultSalesProducts);
     setProductsById(products);
+  };
+
+  const getBySellers = async (t) => {
+    const result = await sellerList(t);
+    setSellers(result);
   };
 
   const contextValue = useMemo(() => ({
@@ -77,6 +79,8 @@ function AppProvider({ children }) {
     getOrderByIdAndSeller,
     orderDetails,
     userById,
+    getBySellers,
+    sellers,
     productsById,
     salesProductById,
   }), [
@@ -92,6 +96,7 @@ function AppProvider({ children }) {
     valueTotal,
     cart,
     total,
+    sellers,
   ]);
 
   return (

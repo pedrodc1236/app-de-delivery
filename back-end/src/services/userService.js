@@ -8,6 +8,11 @@ const userService = {
     return users;
   },
 
+  async getAllSellers() {
+    const usersByRole = await User.findAll({ where: { role: 'seller' } });
+    return usersByRole;
+  },
+
   async findOne(name, email) {
     const userName = await User.findOne({ where: { name } });
 
