@@ -1,8 +1,17 @@
-import React, { useState } from 'react';
+import React, { useContext } from 'react';
+import MyContext from '../context/MyContext';
 
 function CheckoutTableFinishOrder() {
-  const [cart] = useState(JSON.parse(localStorage.getItem('cart')) || []);
-  const [sumTotal] = useState(JSON.parse(localStorage.getItem('sumTotal')) || 0);
+  const {
+    cart,
+    setCart,
+  } = useContext(MyContext);
+
+  const removeProduct = (product) => {
+    const removeP = cart.filter((p) => p.id !== product.id);
+    setCart(removeP);
+    localStorage.setItem('cart', JSON.stringify(removeP));
+  };
 
   return (
     <section>
@@ -23,24 +32,48 @@ function CheckoutTableFinishOrder() {
               <tr
                 key={ index }
               >
-                <td>
+                <td
+                  data-testid={
+                    `customer_checkout__element-order-table-item-number-${index}`
+                  }
+                >
                   { index + 1 }
                 </td>
-                <td>
+                <td
+                  data-testid={
+                    `customer_checkout__element-order-table-name-${index}`
+                  }
+                >
                   { product.name }
                 </td>
-                <td>
+                <td
+                  data-testid={
+                    `customer_checkout__element-order-table-quantity-${index}`
+                  }
+                >
                   { product.quantity }
                 </td>
-                <td>
-                  { product.price }
+                <td
+                  data-testid={
+                    `customer_checkout__element-order-table-unit-price-${index}`
+                  }
+                >
+                  { product.price.replace(/\./, ',') }
                 </td>
-                <td>
-                  { product.subTotal }
+                <td
+                  data-testid={
+                    `customer_checkout__element-order-table-sub-total-${index}`
+                  }
+                >
+                  { product.subTotal.replace(/\./, ',') }
                 </td>
                 <td>
                   <button
+                    data-testid={
+                      `customer_checkout__element-order-table-remove-${index}`
+                    }
                     type="button"
+                    onClick={ () => removeProduct(product) }
                   >
                     Remover
                   </button>
@@ -50,7 +83,17 @@ function CheckoutTableFinishOrder() {
           }
         </tbody>
       </table>
-      <div>{`Total: ${sumTotal}`}</div>
+      <div
+        data-testid="customer_checkout__element-order-total-price"
+      >
+        {
+          `Total: R$ ${
+            cart
+              .reduce((acc, curr) => acc + Number(curr.subTotal), 0).toFixed(2)
+              .replace(/\./, ',')
+          }`
+        }
+      </div>
     </section>
   );
 }

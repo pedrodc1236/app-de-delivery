@@ -1,4 +1,4 @@
-import React, { /* useEffect, */ useMemo, useState } from 'react';
+import React, { useMemo, useState } from 'react';
 import PropTypes from 'prop-types';
 import {
   productsList,
@@ -10,7 +10,7 @@ import {
 } from '../services/axios';
 
 // import fetchProducts from '../services/productsApi';
-
+// import { getUser } from '../services/localStorage';
 import MyContext from './MyContext';
 
 function AppProvider({ children }) {
@@ -18,31 +18,26 @@ function AppProvider({ children }) {
   const [nameUser, setNameUser] = useState('');
   const [produtos, setProdutos] = useState([]);
   const [loading, setLoading] = useState(false);
+  const [cart, setCart] = useState(JSON.parse(localStorage.getItem('cart')) || []);
+  const [valueTotal, setValueTotal] = useState(JSON
+    .parse(localStorage.getItem('total')) || 0);
+  const [total, setTotal] = useState(0);
   const [orders, setOrders] = useState([]);
   const [orderDetails, setOrderDetails] = useState('');
   const [userById, setUserById] = useState('');
   const [salesProductById, setSalesProductById] = useState([]);
   const [productsById, setProductsById] = useState([]);
 
-  // const [products, setProducts] = useState([]);
-
-  // async function getProducts() {
-  //   const { product } = await fetchProducts();
-  //   setProducts(product);
-  // }
-
-  // const contextValue = {
-  //   products,
-  //   setProducts,
-  //   getProducts,
-  // };
-
   const prodAll = async (t) => {
     const result = await productsList(t);
-    setProdutos(result);
+    const newProduct = result.map((each) => ({
+      ...each,
+      quantity: 0,
+    }));
+    setProdutos(newProduct);
   };
 
-  const getOrders = async (t) => {
+const getOrders = async (t) => {
     const result = await orderList(t);
     setOrders(result);
   };
@@ -63,6 +58,8 @@ function AppProvider({ children }) {
 
   const contextValue = useMemo(() => ({
     emailUser,
+    valueTotal,
+    setValueTotal,
     setEmailUser,
     nameUser,
     setNameUser,
@@ -71,6 +68,10 @@ function AppProvider({ children }) {
     loading,
     setLoading,
     prodAll,
+    cart,
+    setCart,
+    total,
+    setTotal,
     orders,
     getOrders,
     getOrderByIdAndSeller,
@@ -88,6 +89,18 @@ function AppProvider({ children }) {
     userById,
     productsById,
     salesProductById,
+  }), [
+    emailUser,
+    nameUser,
+    produtos,
+    loading,
+    valueTotal,
+    cart,
+    total,
+    loading,
+    orders,
+    orderDetails,
+    userById
   ]);
 
   return (
