@@ -21,7 +21,7 @@ function AppProvider({ children }) {
   const [orders, setOrders] = useState([]);
   const [orderDetails, setOrderDetails] = useState('');
   const [userById, setUserById] = useState('');
-  const [salesProductById, seSalesProductById] = useState([]);
+  const [salesProductById, setSalesProductById] = useState([]);
   const [productsById, setProductsById] = useState([]);
 
   // const [products, setProducts] = useState([]);
@@ -52,21 +52,13 @@ function AppProvider({ children }) {
     const { sellerId } = resultOrders;
     const resultUsers = await usersById(t, sellerId);
     const resultSalesProducts = await salesProductsById(t, id);
-    const test = async () => {
-      await resultSalesProducts.map(async (product) => {
-        const resultProducts = await productById(t, product.productId);
-        // console.log(product.productId);
-        // console.log(resultProducts);
-        return resultProducts;
-      });
-    };
-    setProductsById(test());
-    console.log(productsById, 'oi');
+    const products = await productById(t, id);
+    console.log(products);
 
     setOrderDetails(resultOrders);
     setUserById(resultUsers);
-    seSalesProductById(resultSalesProducts);
-    // console.log(resultSalesProducts);
+    setSalesProductById(resultSalesProducts);
+    setProductsById(products);
   };
 
   const contextValue = useMemo(() => ({

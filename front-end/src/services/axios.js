@@ -34,7 +34,7 @@ export const usersById = async (t, id) => {
 
 export const productById = async (t, id) => {
   const result = await axiosApi
-    .get(`/products/${id}`, { headers: { Authorization: t } })
+    .get(`/products/sale/${id}`, { headers: { Authorization: t } })
     .catch((error) => error.response.data);
   return result.data;
 };
