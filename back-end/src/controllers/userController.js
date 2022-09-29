@@ -12,13 +12,6 @@ const userController = {
     return res.status(200).json(user);
   },
 
-  // async query(req, res) {
-  //   const { name, email } = req.query;
-
-  //   const userExists = await userService.query(name, email);
-
-  //   res.status(200).json();
-  // }
 };
 
 module.exports = userController;
