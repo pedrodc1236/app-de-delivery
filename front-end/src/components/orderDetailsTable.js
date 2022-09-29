@@ -4,14 +4,23 @@ import MyContext from '../context/MyContext';
 function OrderDetailsTable() {
   const { productsById, salesProductById } = useContext(MyContext);
 
-  const subTotal = async () => {
-    const total = salesProductById.quantity * productsById.price;
-    return total;
-  };
+  const newArr = productsById.map((product) => {
+    const sProdutcts = salesProductById
+      .filter((sp) => sp.productId === product.id);
+    // console.log(sProdutcts);
+    return {
+      ...product,
+      ...sProdutcts[0],
+    };
+  });
+
+  console.log(newArr);
+
+  const subTotal = (quantity, price) => (quantity * price);
 
   return (
     <div>
-      {salesProductById.map((s, index) => (
+      {newArr.map((product, index) => (
         <table key={ index }>
           <thead>
             <tr>
@@ -28,41 +37,36 @@ function OrderDetailsTable() {
                 data-testid={ `customer_order_details__element-order-table-item-number-
                 ${index}` }
               >
-                { index }
+                { index + 1}
               </th>
-              {productsById.map((product) => (
-                <th
-                  key={ product.id }
-                  data-testid={ `customer_order_details__element-order-table-name-
-                  ${index}` }
-                >
-                  { product.name }
-                </th>
-              ))}
+              <th
+                data-testid={ `customer_order_details__element-order-table-name-
+                ${index}` }
+              >
+                { product.name }
+              </th>
               <th
                 data-testid={ `customer_order_details__element-order-table-quantity-
                 ${index}` }
               >
-                { s.quantity }
+                { product.quantity }
               </th>
-              {productsById.map((product) => (
-                <th key={ index }>
-                  R$
-                  <p
-                    data-testid={ `customer_order_details__element-order-table-unit-price-
-                    ${index}` }
-                  >
-                    { product.price }
-                  </p>
-                </th>
-              ))}
+              <th>
+                R$
+                <p
+                  data-testid={ `customer_order_details__element-order-table-unit-price-
+                  ${index}` }
+                >
+                  { product.price }
+                </p>
+              </th>
               <th>
                 R$
                 <p
                   data-testid={ `customer_order_details__element-order-table-sub-total-
                   ${index}` }
                 >
-                  { subTotal() }
+                  { subTotal(product.quantity, product.price) }
                 </p>
               </th>
             </tr>
