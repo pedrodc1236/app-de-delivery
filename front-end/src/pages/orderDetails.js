@@ -4,12 +4,17 @@ import PropTypes from 'prop-types';
 import Header from '../components/header';
 import { getUser } from '../services/localStorage';
 import MyContext from '../context/MyContext';
+import OrderDetailsTable from '../components/orderDetailsTable';
 
 const ORDER_ID_MAXLENGTH = 4;
 const moment = require('moment');
 
 function OrdersDetails() {
-  const { orderDetails, getOrderByIdAndSeller, userById } = useContext(MyContext);
+  const {
+    orderDetails,
+    getOrderByIdAndSeller,
+    userById,
+  } = useContext(MyContext);
 
   const { id } = useParams();
 
@@ -33,8 +38,8 @@ function OrdersDetails() {
               {String(orderDetails.id).padStart(ORDER_ID_MAXLENGTH, 0)}
             </p>
             <p
-              data-testid={ `customer_order_details__element-order-details-label-seller
-                -name` }
+              data-testid={ `customer_order_details__element-order-details-label-seller-
+              name` }
             >
               P.Vend:
               {userById.name}
@@ -47,7 +52,7 @@ function OrdersDetails() {
             </p>
             <p
               data-testid={ `customer_order_details__element-order-details-
-                label-delivery-status` }
+                label-delivery-status<>` }
             >
               {orderDetails.status}
             </p>
@@ -61,6 +66,16 @@ function OrdersDetails() {
               <p>PENDENTE</p>
             )}
           </div>
+          {/* <OrderDetailsTable /> */}
+          <button type="button">
+            TOTAL: R$
+            {' '}
+            <span
+              data-testid="customer_order_details__element-order-total-price"
+            >
+              {' '}
+            </span>
+          </button>
         </div>
       </div>
     </div>

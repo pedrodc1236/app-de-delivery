@@ -4,6 +4,10 @@ const { NotFoundError } = require('../middlewares/errors');
 const saleProductService = {
 
   async create(body) {
+    if (body.length >= 2) {
+      const newSaleProduct = await SaleProduct.bulkCreate(body);
+      return newSaleProduct;
+    }
     const newSaleProduct = await SaleProduct.create(body);
     return newSaleProduct;
   },
@@ -13,8 +17,8 @@ const saleProductService = {
     return salesProducts;
   },
 
-  async getById(id) {
-    const saleProduct = await SaleProduct.findOne({ where: { id } });
+  async getById(saleId) {
+    const saleProduct = await SaleProduct.findAll({ where: { saleId } });
     if (!saleProduct) {
       return NotFoundError('Sales products not found');
     }

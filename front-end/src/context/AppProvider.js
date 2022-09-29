@@ -1,6 +1,13 @@
 import React, { /* useEffect, */ useMemo, useState } from 'react';
 import PropTypes from 'prop-types';
-import { productsList, orderList, orderById, usersById } from '../services/axios';
+import {
+  productsList,
+  orderList,
+  orderById,
+  usersById,
+  salesProductsById,
+  productById,
+} from '../services/axios';
 
 // import fetchProducts from '../services/productsApi';
 
@@ -14,6 +21,8 @@ function AppProvider({ children }) {
   const [orders, setOrders] = useState([]);
   const [orderDetails, setOrderDetails] = useState('');
   const [userById, setUserById] = useState('');
+  const [salesProductById, seSalesProductById] = useState([]);
+  const [productsById, setProductsById] = useState([]);
 
   // const [products, setProducts] = useState([]);
 
@@ -42,15 +51,23 @@ function AppProvider({ children }) {
     const resultOrders = await orderById(t, id);
     const { sellerId } = resultOrders;
     const resultUsers = await usersById(t, sellerId);
+    const resultSalesProducts = await salesProductsById(t, id);
+    const test = async () => {
+      await resultSalesProducts.map(async (product) => {
+        const resultProducts = await productById(t, product.productId);
+        // console.log(product.productId);
+        // console.log(resultProducts);
+        return resultProducts;
+      });
+    };
+    setProductsById(test());
+    console.log(productsById, 'oi');
+
     setOrderDetails(resultOrders);
     setUserById(resultUsers);
+    seSalesProductById(resultSalesProducts);
+    // console.log(resultSalesProducts);
   };
-
-  // const getUserById = async (t, id) => {
-  //   const resultA = await usersById(t, id);
-  //   console.log(result);
-  //   setUserById(result);
-  // };
 
   const contextValue = useMemo(() => ({
     emailUser,
@@ -67,7 +84,19 @@ function AppProvider({ children }) {
     getOrderByIdAndSeller,
     orderDetails,
     userById,
-  }), [emailUser, nameUser, produtos, loading, orders, orderDetails, userById]);
+    productsById,
+    salesProductById,
+  }), [
+    emailUser,
+    nameUser,
+    produtos,
+    loading,
+    orders,
+    orderDetails,
+    userById,
+    productsById,
+    salesProductById,
+  ]);
 
   return (
     <MyContext.Provider value={ contextValue }>
