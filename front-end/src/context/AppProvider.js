@@ -47,6 +47,8 @@ function AppProvider({ children }) {
     const resultUsers = await usersById(t, sellerId);
     const resultSalesProducts = await salesProductsById(t, id);
     const products = await productById(t, id);
+    // console.log(resultSalesProducts);
+    console.log(products);
     setOrderDetails(resultOrders);
     setUserById(resultUsers);
     setSalesProductById(resultSalesProducts);

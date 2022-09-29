@@ -14,7 +14,7 @@ const productService = {
   },
 
   async getAllBySale(id) {
-    const sql = `SELECT id, name, url_image 
+    const sql = `SELECT id, name, price, url_image 
     from products as p
     JOIN sales_products as sp 
     ON sp.sale_id = ${id}

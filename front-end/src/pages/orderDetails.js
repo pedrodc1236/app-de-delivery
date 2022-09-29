@@ -66,7 +66,7 @@ function OrdersDetails() {
               <p>PENDENTE</p>
             )}
           </div>
-          {/* <OrderDetailsTable /> */}
+          <OrderDetailsTable />
           <button type="button">
             TOTAL: R$
             {' '}
