@@ -10,6 +10,8 @@ productRoute.get('/', tokenValidationMiddleware, productController.getAll);
 
 productRoute.get('/:id', tokenValidationMiddleware, productController.getById);
 
+productRoute.get('/sale/:id', tokenValidationMiddleware, productController.getAllBySale);
+
 productRoute.put('/:id', tokenValidationMiddleware, productController.update);
 
 productRoute.delete('/:id', tokenValidationMiddleware, productController.delete);

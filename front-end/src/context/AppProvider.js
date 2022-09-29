@@ -1,7 +1,14 @@
 import React, { useMemo, useState } from 'react';
 import PropTypes from 'prop-types';
-import { productsList, orderList, orderById, usersById,
-  sellerList } from '../services/axios';
+import {
+  productsList,
+  orderList,
+  orderById,
+  usersById,
+  salesProductsById,
+  productById,
+} from '../services/axios';
+
 import MyContext from './MyContext';
 
 function AppProvider({ children }) {
@@ -17,6 +24,8 @@ function AppProvider({ children }) {
   const [orderDetails, setOrderDetails] = useState('');
   const [userById, setUserById] = useState('');
   const [sellers, setSellers] = useState([]);
+  const [salesProductById, setSalesProductById] = useState([]);
+  const [productsById, setProductsById] = useState([]);
 
   const prodAll = async (t) => {
     const result = await productsList(t);
@@ -32,14 +41,16 @@ function AppProvider({ children }) {
     setOrders(result);
   };
 
-  const getOrderById = async (t, id) => {
-    const result = await orderById(t, id);
-    setOrderDetails(result);
-  };
-
-  const getUserById = async (t, id) => {
-    const result = await usersById(t, id);
-    setUserById(result);
+  const getOrderByIdAndSeller = async (t, id) => {
+    const resultOrders = await orderById(t, id);
+    const { sellerId } = resultOrders;
+    const resultUsers = await usersById(t, sellerId);
+    const resultSalesProducts = await salesProductsById(t, id);
+    const products = await productById(t, id);
+    setOrderDetails(resultOrders);
+    setUserById(resultUsers);
+    setSalesProductById(resultSalesProducts);
+    setProductsById(products);
   };
 
   const getBySellers = async (t) => {
@@ -65,23 +76,26 @@ function AppProvider({ children }) {
     setTotal,
     orders,
     getOrders,
-    getOrderById,
+    getOrderByIdAndSeller,
     orderDetails,
-    getUserById,
     userById,
     getBySellers,
     sellers,
+    productsById,
+    salesProductById,
   }), [
     emailUser,
     nameUser,
-    produtos,
     loading,
-    valueTotal,
-    cart,
-    total,
     orders,
     orderDetails,
     userById,
+    productsById,
+    salesProductById,
+    produtos,
+    valueTotal,
+    cart,
+    total,
     sellers,
   ]);
 
