@@ -1,6 +1,9 @@
-import React, { useState } from 'react';
+import React, { useContext, useState } from 'react';
+import MyContext from '../context/MyContext';
 
 function CheckoutDetailsAndAddress() {
+  const { sellers } = useContext(MyContext);
+
   const [detailsInfo, setDetailsInfo] = useState({
     seller: '',
     address: '',
@@ -20,14 +23,17 @@ function CheckoutDetailsAndAddress() {
       >
         P. Vendedora Responsável:
         <select
+          data-testid="customer_checkout__select-seller"
           id="seller-input"
           name="seller"
           value={ seller }
           onChange={ handleChange }
         >
-          <option>Seller 1</option>
-          <option>Seller 2</option>
-          <option>Seller 3</option>
+          {
+            sellers?.map((s, index) => (
+              <option key={ index }>{s.name}</option>
+            ))
+          }
         </select>
       </label>
       <label
@@ -35,6 +41,7 @@ function CheckoutDetailsAndAddress() {
       >
         Endereço
         <input
+          data-testid="customer_checkout__input-address"
           id="address-input"
           name="address"
           value={ address }
@@ -47,6 +54,7 @@ function CheckoutDetailsAndAddress() {
       >
         Número
         <input
+          data-testid="customer_checkout__input-address-number"
           id="addressNumber-input"
           name="addressNumber"
           value={ addressNumber }
@@ -55,6 +63,7 @@ function CheckoutDetailsAndAddress() {
         />
       </label>
       <button
+        data-testid="customer_checkout__button-submit-order"
         type="button"
       >
         FINALIZAR PEDIDO
