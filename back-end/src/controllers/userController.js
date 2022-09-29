@@ -6,6 +6,11 @@ const userController = {
     res.status(200).json(all);
   },
 
+  async getAllSellers(_req, res) {
+    const allUsersByRole = await userService.getAllSellers();
+    return res.status(200).json(allUsersByRole);
+  },
+
   async getById(req, res) {
     const { id } = req.params;
     const user = await userService.getById(id);

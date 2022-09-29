@@ -31,4 +31,11 @@ export const usersById = async (t, id) => {
   return result.data;
 };
 
+export const sellerList = async (t) => {
+  const result = await axiosApi
+    .get('/users/seller', { headers: { Authorization: t } })
+    .catch((error) => error.response.data);
+  return result.data;
+};
+
 export default axiosApi;

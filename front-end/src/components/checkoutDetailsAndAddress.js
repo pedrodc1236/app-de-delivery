@@ -1,6 +1,9 @@
-import React, { useState } from 'react';
+import React, { useContext, useState } from 'react';
+import MyContext from '../context/MyContext';
 
 function CheckoutDetailsAndAddress() {
+  const { sellers } = useContext(MyContext);
+
   const [detailsInfo, setDetailsInfo] = useState({
     seller: '',
     address: '',
@@ -26,9 +29,11 @@ function CheckoutDetailsAndAddress() {
           value={ seller }
           onChange={ handleChange }
         >
-          <option>Seller 1</option>
-          <option>Seller 2</option>
-          <option>Seller 3</option>
+          {
+            sellers?.map((s, index) => (
+              <option key={ index }>{s.name}</option>
+            ))
+          }
         </select>
       </label>
       <label
