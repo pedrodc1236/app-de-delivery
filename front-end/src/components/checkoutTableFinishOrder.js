@@ -1,9 +1,18 @@
-import React, { useState } from 'react';
+import React, { useContext } from 'react';
+import MyContext from '../context/MyContext';
 
 function CheckoutTableFinishOrder() {
-  const [cart] = useState(JSON.parse(localStorage.getItem('cart')) || []);
-  const [sumTotal] = useState(JSON.parse(localStorage.getItem('sumTotal')) || 0);
-  // data-testid={ }
+  const {
+    cart,
+    setCart,
+  } = useContext(MyContext);
+
+  const removeProduct = (product) => {
+    const removeP = cart.filter((p) => p.id !== product.id);
+    setCart(removeP);
+    localStorage.setItem('cart', JSON.stringify(removeP));
+  };
+
   return (
     <section>
       <table>
@@ -64,6 +73,7 @@ function CheckoutTableFinishOrder() {
                       `customer_checkout__element-order-table-remove-${index}`
                     }
                     type="button"
+                    onClick={ () => removeProduct(product) }
                   >
                     Remover
                   </button>
@@ -76,7 +86,13 @@ function CheckoutTableFinishOrder() {
       <div
         data-testid="customer_checkout__element-order-total-price"
       >
-        {`Total: ${sumTotal}`}
+        {
+          `Total: R$ ${
+            cart
+              .reduce((acc, curr) => acc + Number(curr.subTotal), 0).toFixed(2)
+              .replace(/\./, ',')
+          }`
+        }
       </div>
     </section>
   );

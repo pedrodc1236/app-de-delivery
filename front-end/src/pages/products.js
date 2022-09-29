@@ -1,12 +1,20 @@
-import React, { /* useEffect */ useContext /* useState */ } from 'react';
+import React, { useEffect, useContext /* useState */ } from 'react';
 import PropTypes from 'prop-types';
 import Header from '../components/header';
 import MyContext from '../context/MyContext';
-/* import { addFavorite, getUser } from '../services/localStorage'; */
+import { getUser } from '../services/localStorage';
 import CardProduct from '../components/cardProduct';
+import BtnTotal from '../components/btnTotal';
 
 function Products() {
-  const { produtos } = useContext(MyContext);
+  const { produtos, prodAll } = useContext(MyContext);
+
+  useEffect(() => {
+    const { token } = getUser();
+    prodAll(token);
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
+
   return (
     <div>
       <Header />
@@ -22,6 +30,7 @@ function Products() {
             priceProd={ produto.price.replace(('.', ',')) }
           />
         ))}
+        <BtnTotal />
       </main>
     </div>
   );

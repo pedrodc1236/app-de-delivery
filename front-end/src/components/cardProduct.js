@@ -1,57 +1,91 @@
-import React, { useContext, useEffect } from 'react';
+import React, { useContext, useEffect, useState } from 'react';
 import PropTypes from 'prop-types';
 import MyContext from '../context/MyContext';
+import { addFavorite } from '../services/localStorage';
 
 function CardProduct({ id, nameP, urlImage, priceProd, index }) {
-  const { setQuantity, quantity, setValueTotal, valueTotal } = useContext(MyContext);
+  const {
+    cart,
+    setCart,
+  } = useContext(MyContext);
   const img = '100px';
+  const [quantity, setQuantity] = useState('0');
 
-  const sumByInput = (param) => {
-    const n = Number(param);
-    const calc = valueTotal + n;
-    setValueTotal(calc);
-  };
-
-  useEffect(() => {
-    localStorage.setItem('count', JSON.stringify(quantity));
-    localStorage.setItem('total', JSON.stringify(valueTotal));
-  }, [quantity, valueTotal]);
-
-  const subByInput = (param) => {
-    const n = Number(param);
-    const calc = valueTotal - n;
-    setValueTotal(calc);
-  };
-
-  const increment = () => {
-    setQuantity((prevState) => ({
-      ...prevState,
-      [nameP]: prevState[nameP] ? quantity[nameP] + 1 : 1,
-    }));
-    sumByInput(priceProd);
-    localStorage.setItem('count', JSON.stringify(quantity));
-  };
-
-  const decrement = () => {
-    setQuantity((prevState) => ({
-      ...prevState,
-      [nameP]: prevState[nameP] ? quantity[nameP] - 1 : 0,
-    }));
-    if (valueTotal > 0) {
-      subByInput(priceProd);
+  const addToCart = (countProduct) => {
+    const countP = Number(countProduct);
+    const product = { id, name: nameP, urlImage, price: priceProd };
+    const existsProduct = cart.find((item) => item.id === product.id);
+    // editar
+    if (existsProduct) {
+      setCart(
+        cart.map((item) => (item.id === product.id
+          ? { ...existsProduct,
+            quantity: countP,
+            subTotal: (Number(product.price) * countP).toFixed(2) } : item)),
+      );
     }
+
+    // adicionar
+    if (!existsProduct && countP > 0) {
+      setCart([...cart, { ...product,
+        quantity: countP,
+        subTotal: (Number(product.price) * countP).toFixed(2) }]);
+    }
+
+    // remover
+    if (countP === 0) {
+      const removeProduct = cart.filter((p) => product.id !== p.id);
+      setCart([...removeProduct]);
+    }
+
+    addFavorite(cart);
   };
 
   const handleChange = (e) => {
     const { value } = e.target;
-    setQuantity((prevState) => ({
-      ...prevState,
-      quantity: value,
-    }));
+    let quantityAtt = Number(value);
+    if (Number(value) < 0 || Number.isNaN(Number(value))) {
+      quantityAtt = 0;
+    }
+    setQuantity(quantityAtt);
+    addToCart(quantityAtt);
   };
-  /*   console.log(valueTotal.toFixed(2)); */
 
-  /*   console.log(quantity); */
+  useEffect(() => {
+    localStorage.setItem('cart', JSON.stringify(cart));
+  }, [cart]);
+
+  useEffect(() => {
+    const saveQuantity = JSON.parse(localStorage.getItem('cart'));
+    if (!saveQuantity) {
+      setCart([]);
+    } else {
+      setCart(saveQuantity);
+      const quantityProduct = saveQuantity.find((p) => p.id === id);
+      if (quantityProduct) {
+        setQuantity(quantityProduct.quantity);
+      }
+    }
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
+
+  const increment = () => {
+    const addOne = Number(quantity) + 1;
+    setQuantity(String(Number(addOne)));
+    addToCart(addOne);
+  };
+
+  const decrement = () => {
+    let removeOne = '0';
+    if (quantity === '0') {
+      removeOne = '0';
+    } else {
+      removeOne = Number(quantity) - 1;
+    }
+    setQuantity(String(Number(removeOne)));
+    addToCart(removeOne);
+  };
+
   return (
     <div>
       <p
@@ -82,10 +116,10 @@ function CardProduct({ id, nameP, urlImage, priceProd, index }) {
       </button>
       <input
         onChange={ (e) => handleChange(e) }
-        value={ quantity[nameP] || 0 }
+        value={ quantity }
         name={ nameP }
-        min="0"
-        type="number"
+        // min="0"
+        type="text"
         id={ priceProd }
         data-testid={ `customer_products__input-card-quantity-${id}` }
       />
