@@ -7,7 +7,7 @@ import { getUser } from '../services/localStorage';
 function CheckoutDetailsAndAddress() {
   const history = useHistory();
 
-  const { sellers, cart } = useContext(MyContext);
+  const { sellers, cart, setCart } = useContext(MyContext);
 
   const [detailsInfo, setDetailsInfo] = useState({
     seller: 'Fulana Pereira',
@@ -22,25 +22,33 @@ function CheckoutDetailsAndAddress() {
   };
 
   // useEffect(() => {
+  //   console.log(sellers, 'Opaopa');
+  // // eslint-disable-next-line react-hooks/exhaustive-deps
+  // }, [sellers]);
+
+  // useEffect(() => {
   //   const { token } = getUser();
   //   prodAll(token);
   // // eslint-disable-next-line react-hooks/exhaustive-deps
   // }, []);
 
-  const getSeller = () => {
-    const { id } = sellers.find((s) => s.name === detailsInfo.seller);
-    const sellerId = id;
-    return sellerId;
-  };
+  // const getSeller = async () => {
+  //   const { id } = await sellers.find((s) => s.name === detailsInfo.seller);
+  //   console.log(sellers, 'seller');
+  //   const sellerId = id;
+  //   console.log(sellerId, 'sellerId');
+  //   return sellerId;
+  // };
 
   const finishOrder = async () => {
     const { id } = JSON.parse(localStorage.getItem('userId'));
+    console.log(detailsInfo, 'finishOrder');
+    const sellerId = sellers.find((s) => s.name === detailsInfo.seller);
     const total = cart
       .reduce((acc, curr) => acc + Number(curr.subTotal), 0).toFixed(2);
-    console.log(Number(total));
     const newSale = {
       userId: id,
-      sellerId: getSeller(),
+      sellerId: sellerId.id,
       totalPrice: Number(total),
       deliveryAddress: detailsInfo.address,
       deliveryNumber: Number(detailsInfo.addressNumber),
@@ -60,13 +68,13 @@ function CheckoutDetailsAndAddress() {
       const salesProduct = cart.map((p) => (
         { saleId: idSale, productId: p.id, quantity: p.quantity }
       ));
-      const teste = await axiosApi.post(
+      await axiosApi.post(
         '/sales_products',
         [...salesProduct],
         { headers: { Authorization: token } },
       );
-      console.log(teste);
-      console.log(salesProduct);
+      setCart([]);
+      localStorage.setItem('cart', JSON.stringify([]));
       history.push(`/customer/orders/${idSale}`);
     } catch (err) {
       console.log(err);
@@ -125,7 +133,7 @@ function CheckoutDetailsAndAddress() {
       </label>
       <button
         data-testid="customer_checkout__button-submit-order"
-        type="button"
+        type="submit"
         onClick={ finishOrder }
       >
         FINALIZAR PEDIDO

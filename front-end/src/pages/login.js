@@ -28,7 +28,6 @@ function Login({ history }) {
     const ok = 200;
     try {
       const request = await axiosApi.post('/login', { email, password });
-      console.log(request);
       if (request.status === ok) {
         addUser(
           request.data.name,
