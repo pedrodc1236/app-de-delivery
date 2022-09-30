@@ -9,7 +9,7 @@ function CheckoutDetailsAndAddress() {
 
   const { cart, setCart } = useContext(MyContext);
   const [sellers, setSellers] = useState([]);
-  const [idSeller, setIdSeller] = useState();
+  const [idSeller, setIdSeller] = useState(0);
 
   const [detailsInfo, setDetailsInfo] = useState({
     id: 1,
@@ -17,6 +17,17 @@ function CheckoutDetailsAndAddress() {
     address: '',
     addressNumber: '',
   });
+  const getBySellers = async (t) => {
+    const result = await sellerList(t);
+    setSellers(result);
+    setIdSeller(result[0].id);
+  };
+
+  useEffect(() => {
+    const { token } = getUser();
+    getBySellers(token);
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
 
   const handleChange = ({ target: { name, value } }) => {
     setDetailsInfo({ ...detailsInfo, [name]: value });
@@ -26,17 +37,6 @@ function CheckoutDetailsAndAddress() {
     console.log(e.target.value);
     setIdSeller(e.target.value);
   };
-
-  const getBySellers = async (t) => {
-    const result = await sellerList(t);
-    setSellers(result);
-  };
-
-  useEffect(() => {
-    const { token } = getUser();
-    getBySellers(token);
-  // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, []);
 
   // useEffect(() => {
   //   console.log(sellers, 'Opaopa');
@@ -68,9 +68,9 @@ function CheckoutDetailsAndAddress() {
         sellerId: idSeller,
         totalPrice: Number(total),
         deliveryAddress: detailsInfo.address,
-        deliveryNumber: Number(detailsInfo.addressNumber),
+        deliveryNumber: detailsInfo.addressNumber,
         saleDate: new Date(),
-        status: 'pendente',
+        status: 'Pendente',
       };
       console.log(newSale, 'newSale');
 
