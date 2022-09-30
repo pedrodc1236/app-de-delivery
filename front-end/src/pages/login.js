@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import PropTypes from 'prop-types';
 import axiosApi from '../services/axios';
-import { addUser } from '../services/localStorage';
+import { addUser, addId } from '../services/localStorage';
 
 function Login({ history }) {
   const [email, setEmail] = useState('');
@@ -35,6 +35,9 @@ function Login({ history }) {
           request.data.email,
           request.data.role,
           request.data.token,
+        );
+        addId(
+          request.data.id,
         );
         setNotFound(false);
         if (request.data.role === 'seller') {

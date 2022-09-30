@@ -44,7 +44,6 @@ function Register({ history }) {
     try {
       const newUser = { name: nome, email, password, role: 'customer' };
       const request = await axiosApi.post('/register', { ...newUser });
-      console.log(request);
       setEmailUser(request.data.email);
       setNameUser(request.data.name);
       history.push('/customer/products');

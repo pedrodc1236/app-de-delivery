@@ -4,12 +4,12 @@ const { NotFoundError } = require('../middlewares/errors');
 const saleProductService = {
 
   async create(body) {
-    if (body.length >= 2) {
+    // if (body.length >= 2) {
       const newSaleProduct = await SaleProduct.bulkCreate(body);
       return newSaleProduct;
-    }
-    const newSaleProduct = await SaleProduct.create(body);
-    return newSaleProduct;
+    // }
+    // const newSaleProduct = await SaleProduct.create(body);
+    // return newSaleProduct;
   },
 
   async getAll() {

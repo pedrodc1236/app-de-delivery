@@ -7,8 +7,8 @@ const authController = {
     const user = await authService.validateUserByEmail(data);
     await authService.verifyUserPassword(data.password, user.password);
     const token = await authService.makeToken(user);
-    const { name, email, role } = user;
-    res.json({ name, email, role, token });
+    const { id, name, email, role } = user;
+    res.json({ id, name, email, role, token });
   },
   async list(_req, res) {
     const users = await authService.list();
