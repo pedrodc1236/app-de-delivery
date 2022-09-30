@@ -1,25 +1,42 @@
-import React, { useContext, useState } from 'react';
+import React, { useContext, useState, useEffect } from 'react';
 import { useHistory } from 'react-router-dom';
-import axiosApi from '../services/axios';
+import axiosApi, { sellerList } from '../services/axios';
 import MyContext from '../context/MyContext';
 import { getUser } from '../services/localStorage';
 
 function CheckoutDetailsAndAddress() {
   const history = useHistory();
 
-  const { sellers, cart, setCart } = useContext(MyContext);
+  const { cart, setCart } = useContext(MyContext);
+  const [sellers, setSellers] = useState([]);
+  const [idSeller, setIdSeller] = useState();
 
   const [detailsInfo, setDetailsInfo] = useState({
+    id: 1,
     seller: 'Fulana Pereira',
     address: '',
     addressNumber: '',
   });
 
-  const { seller, address, addressNumber } = detailsInfo;
-
   const handleChange = ({ target: { name, value } }) => {
     setDetailsInfo({ ...detailsInfo, [name]: value });
   };
+
+  const handleInput = (e) => {
+    console.log(e.target.value);
+    setIdSeller(e.target.value);
+  };
+
+  const getBySellers = async (t) => {
+    const result = await sellerList(t);
+    setSellers(result);
+  };
+
+  useEffect(() => {
+    const { token } = getUser();
+    getBySellers(token);
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
 
   // useEffect(() => {
   //   console.log(sellers, 'Opaopa');
@@ -41,24 +58,24 @@ function CheckoutDetailsAndAddress() {
   // };
 
   const finishOrder = async () => {
-    const { id } = JSON.parse(localStorage.getItem('userId'));
-    console.log(detailsInfo, 'finishOrder');
-    const sellerId = sellers.find((s) => s.name === detailsInfo.seller);
-    const total = cart
-      .reduce((acc, curr) => acc + Number(curr.subTotal), 0).toFixed(2);
-    const newSale = {
-      userId: id,
-      sellerId: sellerId.id,
-      totalPrice: Number(total),
-      deliveryAddress: detailsInfo.address,
-      deliveryNumber: Number(detailsInfo.addressNumber),
-      saleDate: new Date(),
-      status: 'pendente',
-    };
-
-    const { token } = getUser();
-
     try {
+      const pickIdLocalStorage = JSON.parse(localStorage.getItem('userId'));
+      console.log(pickIdLocalStorage, 'pickIdLocalStorage');
+      const total = cart
+        .reduce((acc, curr) => acc + Number(curr.subTotal), 0).toFixed(2);
+      const newSale = {
+        userId: pickIdLocalStorage.id,
+        sellerId: idSeller,
+        totalPrice: Number(total),
+        deliveryAddress: detailsInfo.address,
+        deliveryNumber: Number(detailsInfo.addressNumber),
+        saleDate: new Date(),
+        status: 'pendente',
+      };
+      console.log(newSale, 'newSale');
+
+      const { token } = getUser();
+
       const createSale = await axiosApi.post(
         '/sales',
         { ...newSale },
@@ -91,12 +108,13 @@ function CheckoutDetailsAndAddress() {
           data-testid="customer_checkout__select-seller"
           id="seller-input"
           name="seller"
-          value={ seller }
-          onChange={ handleChange }
+          value={ idSeller }
+          onChange={ handleInput }
         >
           {
             sellers?.map((s, index) => (
               <option
+                value={ s.id }
                 key={ index }
               >
                 {s.name}
@@ -113,7 +131,7 @@ function CheckoutDetailsAndAddress() {
           data-testid="customer_checkout__input-address"
           id="address-input"
           name="address"
-          value={ address }
+          value={ detailsInfo.address }
           type="text"
           onChange={ handleChange }
         />
@@ -126,7 +144,7 @@ function CheckoutDetailsAndAddress() {
           data-testid="customer_checkout__input-address-number"
           id="addressNumber-input"
           name="addressNumber"
-          value={ addressNumber }
+          value={ detailsInfo.addressNumber }
           type="text"
           onChange={ handleChange }
         />
