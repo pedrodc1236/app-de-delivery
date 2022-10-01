@@ -11,7 +11,7 @@ const saleService = {
       sellerId: Joi.number().required(),
       totalPrice: Joi.number().required(),
       deliveryAddress: Joi.string().required(),
-      deliveryNumber: Joi.number().integer().required(),
+      deliveryNumber: Joi.string().required(),
       saleDate: Joi.date().required(),
       status: Joi.string().required(),
     });

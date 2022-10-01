@@ -33,3 +33,7 @@ export const getItem = () => {
 
 // limpa o localStorage
 export const cleanLocalStorage = () => localStorage.clear();
+
+export const addId = (id) => {
+  localStorage.setItem('userId', JSON.stringify({ id }));
+};

@@ -53,4 +53,11 @@ export const sellerList = async (t) => {
   return result.data;
 };
 
+// export const createSale = async (t) => {
+//   const result = await axiosApi
+//     .post('/sales', { headers: { Authorization: t } })
+//     .catch((error) => error.response.data);
+//   return result.data;
+// };
+
 export default axiosApi;

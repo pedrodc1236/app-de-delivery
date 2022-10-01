@@ -4,6 +4,7 @@ const userService = require('../services/userService');
 const saleController = {
   async create(req, res) {
     const { body } = req;
+    console.log(body, 'saleController');
     const data = await saleService.validateData(body);
     const newSale = await saleService.create(data);
     res.status(201).json(newSale);

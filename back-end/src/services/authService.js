@@ -28,9 +28,9 @@ const authService = {
     }
   },
   async makeToken(user) {
-    const { name, email, role } = user;
+    const { id, name, email, role } = user;
     const secret = fs.readFileSync('./jwt.evaluation.key', 'utf8');
-    const payload = { name, email, role };
+    const payload = { id, name, email, role };
     const token = jwt.sign(payload, secret);
     return token;
   },

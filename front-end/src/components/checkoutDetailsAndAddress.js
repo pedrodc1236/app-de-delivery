@@ -1,19 +1,101 @@
-import React, { useContext, useState } from 'react';
+import React, { useContext, useState, useEffect } from 'react';
+import { useHistory } from 'react-router-dom';
+import axiosApi, { sellerList } from '../services/axios';
 import MyContext from '../context/MyContext';
+import { getUser } from '../services/localStorage';
 
 function CheckoutDetailsAndAddress() {
-  const { sellers } = useContext(MyContext);
+  const history = useHistory();
+
+  const { cart, setCart } = useContext(MyContext);
+  const [sellers, setSellers] = useState([]);
+  const [idSeller, setIdSeller] = useState(0);
 
   const [detailsInfo, setDetailsInfo] = useState({
-    seller: '',
+    id: 1,
+    seller: 'Fulana Pereira',
     address: '',
     addressNumber: '',
   });
+  const getBySellers = async (t) => {
+    const result = await sellerList(t);
+    setSellers(result);
+    setIdSeller(result[0].id);
+  };
 
-  const { seller, address, addressNumber } = detailsInfo;
+  useEffect(() => {
+    const { token } = getUser();
+    getBySellers(token);
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
 
   const handleChange = ({ target: { name, value } }) => {
     setDetailsInfo({ ...detailsInfo, [name]: value });
+  };
+
+  const handleInput = (e) => {
+    console.log(e.target.value);
+    setIdSeller(e.target.value);
+  };
+
+  // useEffect(() => {
+  //   console.log(sellers, 'Opaopa');
+  // // eslint-disable-next-line react-hooks/exhaustive-deps
+  // }, [sellers]);
+
+  // useEffect(() => {
+  //   const { token } = getUser();
+  //   prodAll(token);
+  // // eslint-disable-next-line react-hooks/exhaustive-deps
+  // }, []);
+
+  // const getSeller = async () => {
+  //   const { id } = await sellers.find((s) => s.name === detailsInfo.seller);
+  //   console.log(sellers, 'seller');
+  //   const sellerId = id;
+  //   console.log(sellerId, 'sellerId');
+  //   return sellerId;
+  // };
+
+  const finishOrder = async () => {
+    try {
+      const pickIdLocalStorage = JSON.parse(localStorage.getItem('userId'));
+      console.log(pickIdLocalStorage, 'pickIdLocalStorage');
+      const total = cart
+        .reduce((acc, curr) => acc + Number(curr.subTotal), 0).toFixed(2);
+      const newSale = {
+        userId: pickIdLocalStorage.id,
+        sellerId: idSeller,
+        totalPrice: Number(total),
+        deliveryAddress: detailsInfo.address,
+        deliveryNumber: detailsInfo.addressNumber,
+        saleDate: new Date(),
+        status: 'Pendente',
+      };
+      console.log(newSale, 'newSale');
+
+      const { token } = getUser();
+
+      const createSale = await axiosApi.post(
+        '/sales',
+        { ...newSale },
+        { headers: { Authorization: token } },
+      );
+      const idSale = createSale.data.id;
+      const salesProduct = cart.map((p) => (
+        { saleId: idSale, productId: p.id, quantity: p.quantity }
+      ));
+      await axiosApi.post(
+        '/sales_products',
+        [...salesProduct],
+        { headers: { Authorization: token } },
+      );
+      setCart([]);
+      localStorage.setItem('cart', JSON.stringify([]));
+      history.push(`/customer/orders/${idSale}`);
+    } catch (err) {
+      console.log(err);
+    }
   };
 
   return (
@@ -26,12 +108,17 @@ function CheckoutDetailsAndAddress() {
           data-testid="customer_checkout__select-seller"
           id="seller-input"
           name="seller"
-          value={ seller }
-          onChange={ handleChange }
+          value={ idSeller }
+          onChange={ handleInput }
         >
           {
             sellers?.map((s, index) => (
-              <option key={ index }>{s.name}</option>
+              <option
+                value={ s.id }
+                key={ index }
+              >
+                {s.name}
+              </option>
             ))
           }
         </select>
@@ -44,7 +131,7 @@ function CheckoutDetailsAndAddress() {
           data-testid="customer_checkout__input-address"
           id="address-input"
           name="address"
-          value={ address }
+          value={ detailsInfo.address }
           type="text"
           onChange={ handleChange }
         />
@@ -57,14 +144,15 @@ function CheckoutDetailsAndAddress() {
           data-testid="customer_checkout__input-address-number"
           id="addressNumber-input"
           name="addressNumber"
-          value={ addressNumber }
+          value={ detailsInfo.addressNumber }
           type="text"
           onChange={ handleChange }
         />
       </label>
       <button
         data-testid="customer_checkout__button-submit-order"
-        type="button"
+        type="submit"
+        onClick={ finishOrder }
       >
         FINALIZAR PEDIDO
       </button>

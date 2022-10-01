@@ -8,6 +8,7 @@ function BtnTotal() {
 
   const {
     cart,
+    setTotalSale,
   } = useContext(MyContext);
 
   const [total, setTotal] = useState(0);
@@ -25,6 +26,7 @@ function BtnTotal() {
       setDisabledBtn(true);
     }
     setTotal(reduceTotal);
+    setTotalSale(reduceTotal);
   };
 
   const goCheckout = () => {
