@@ -7,16 +7,16 @@ function OrderDetailsTable() {
   const newArr = productsById.map((product) => {
     const sProdutcts = salesProductById
       .filter((sp) => sp.productId === product.id);
-    // console.log(sProdutcts);
     return {
       ...product,
       ...sProdutcts[0],
     };
   });
 
-  console.log(newArr);
-
-  const subTotal = (quantity, price) => (quantity * price);
+  const subTotal = (quantity, price) => {
+    const result = (quantity * price).toFixed(2);
+    return result.toString().replace(/\./, ',');
+  };
 
   return (
     <div>
@@ -57,7 +57,7 @@ function OrderDetailsTable() {
                   data-testid={ `customer_order_details__element-order-table-unit-price-
                   ${index}` }
                 >
-                  { product.price }
+                  { product.price.replace('.', ',') }
                 </p>
               </th>
               <th>

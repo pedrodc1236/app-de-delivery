@@ -34,33 +34,12 @@ function CheckoutDetailsAndAddress() {
   };
 
   const handleInput = (e) => {
-    console.log(e.target.value);
     setIdSeller(e.target.value);
   };
-
-  // useEffect(() => {
-  //   console.log(sellers, 'Opaopa');
-  // // eslint-disable-next-line react-hooks/exhaustive-deps
-  // }, [sellers]);
-
-  // useEffect(() => {
-  //   const { token } = getUser();
-  //   prodAll(token);
-  // // eslint-disable-next-line react-hooks/exhaustive-deps
-  // }, []);
-
-  // const getSeller = async () => {
-  //   const { id } = await sellers.find((s) => s.name === detailsInfo.seller);
-  //   console.log(sellers, 'seller');
-  //   const sellerId = id;
-  //   console.log(sellerId, 'sellerId');
-  //   return sellerId;
-  // };
 
   const finishOrder = async () => {
     try {
       const pickIdLocalStorage = JSON.parse(localStorage.getItem('userId'));
-      console.log(pickIdLocalStorage, 'pickIdLocalStorage');
       const total = cart
         .reduce((acc, curr) => acc + Number(curr.subTotal), 0).toFixed(2);
       const newSale = {
@@ -72,7 +51,6 @@ function CheckoutDetailsAndAddress() {
         saleDate: new Date(),
         status: 'Pendente',
       };
-      console.log(newSale, 'newSale');
 
       const { token } = getUser();
 

@@ -14,6 +14,7 @@ function OrdersDetails() {
     orderDetails,
     getOrderByIdAndSeller,
     userById,
+    totalPriceOrder,
   } = useContext(MyContext);
 
   const { id } = useParams();
@@ -32,9 +33,11 @@ function OrdersDetails() {
           <h1>Detalhes do Pedido</h1>
           <div key={ orderDetails.id }>
             <p
-              data-testid="customer_order_details__element-order-details-label-order-id"
+              data-testid={ `customer_order_details__element-
+              order-details-label-order-id` }
             >
               PEDIDO
+              {' '}
               {String(orderDetails.id).padStart(ORDER_ID_MAXLENGTH, 0)}
             </p>
             <p
@@ -57,25 +60,22 @@ function OrdersDetails() {
               {orderDetails.status}
             </p>
             {orderDetails.status === 'ENTREGUE' ? (
-              <button type="button">
-                <p data-testid="customer_order_details__button-delivery-check">
-                  MARCAR COMO ENTREGUE
-                </p>
+              <button
+                type="button"
+                data-testid="customer_order_details__button-delivery-check"
+              >
+                MARCAR COMO ENTREGUE
+
               </button>
             ) : (
               <p>PENDENTE</p>
             )}
           </div>
           <OrderDetailsTable />
-          <button type="button">
+          <h3 data-testid="customer_order_details__element-order-total-price">
             TOTAL: R$
-            {' '}
-            <span
-              data-testid="customer_order_details__element-order-total-price"
-            >
-              {' '}
-            </span>
-          </button>
+            {totalPriceOrder.totalPrice}
+          </h3>
         </div>
       </div>
     </div>

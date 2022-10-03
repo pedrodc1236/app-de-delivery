@@ -49,7 +49,6 @@ function Register({ history }) {
       history.push('/customer/products');
     } catch (err) {
       setNotValid(true);
-      console.log(err);
       if (err.response.data.message === 'This username already exists') {
         setMessageError('Nome de usuário já existe');
       }

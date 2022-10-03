@@ -28,6 +28,7 @@ function AppProvider({ children }) {
   const [salesProductById, setSalesProductById] = useState([]);
   const [productsById, setProductsById] = useState([]);
   const [totalSale, setTotalSale] = useState(0);
+  const [totalPriceOrder, setTotalPriceOrder] = useState('');
 
   const prodAll = async (t) => {
     const result = await productsList(t);
@@ -49,8 +50,7 @@ function AppProvider({ children }) {
     const resultUsers = await usersById(t, sellerId);
     const resultSalesProducts = await salesProductsById(t, id);
     const products = await productById(t, id);
-    // console.log(resultSalesProducts);
-    console.log(products);
+    setTotalPriceOrder(resultOrders);
     setOrderDetails(resultOrders);
     setUserById(resultUsers);
     setSalesProductById(resultSalesProducts);
@@ -89,6 +89,7 @@ function AppProvider({ children }) {
     salesProductById,
     totalSale,
     setTotalSale,
+    totalPriceOrder,
   }), [
     emailUser,
     nameUser,
@@ -104,6 +105,7 @@ function AppProvider({ children }) {
     total,
     sellers,
     totalSale,
+    totalPriceOrder,
   ]);
 
   return (
