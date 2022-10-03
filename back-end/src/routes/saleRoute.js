@@ -8,7 +8,7 @@ const route = Router();
 
 route.post('/', authMiddleware, saleController.create);
 
-route.get('/', authMiddleware, saleController.getAll);
+route.get('/seller', authMiddleware, saleController.getAll);
 
 route.get('/customer', authMiddleware, saleController.getAllByUser);
 

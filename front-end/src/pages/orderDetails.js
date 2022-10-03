@@ -14,7 +14,13 @@ function OrdersDetails() {
     orderDetails,
     getOrderByIdAndSeller,
     userById,
+    totalPriceOrder,
   } = useContext(MyContext);
+
+  const obj = {
+    sellerName: 'customer_order_details__element-order-details-label-seller-name',
+    status: 'customer_order_details__element-order-details-label-delivery-status',
+  };
 
   const { id } = useParams();
 
@@ -35,47 +41,37 @@ function OrdersDetails() {
               data-testid="customer_order_details__element-order-details-label-order-id"
             >
               PEDIDO
+              {' '}
               {String(orderDetails.id).padStart(ORDER_ID_MAXLENGTH, 0)}
             </p>
             <p
-              data-testid={ `customer_order_details__element-order-details-label-seller-
-              name` }
+              data-testid={ obj.sellerName }
             >
               P.Vend:
               {userById.name}
             </p>
             <p
-              data-testid={ `customer_order_details__element-order-details-label-order
-                -date` }
+              data-testid="customer_order_details__element-order-details-label-order-date"
             >
               { moment(orderDetails.saleDate).format('DD/MM/YYYY') }
             </p>
             <p
-              data-testid={ `customer_order_details__element-order-details-
-                label-delivery-status<>` }
+              data-testid={ obj.status }
             >
               {orderDetails.status}
             </p>
-            {orderDetails.status === 'ENTREGUE' ? (
-              <button type="button">
-                <p data-testid="customer_order_details__button-delivery-check">
-                  MARCAR COMO ENTREGUE
-                </p>
-              </button>
-            ) : (
-              <p>PENDENTE</p>
-            )}
+            <button
+              type="button"
+              data-testid="customer_order_details__button-delivery-check"
+              disabled
+            >
+              MARCAR COMO ENTREGUE
+            </button>
           </div>
           <OrderDetailsTable />
-          <button type="button">
-            TOTAL: R$
-            {' '}
-            <span
-              data-testid="customer_order_details__element-order-total-price"
-            >
-              {' '}
-            </span>
-          </button>
+          <h3 data-testid="customer_order_details__element-order-total-price">
+            {Number(totalPriceOrder.totalPrice).toFixed(2).toString().replace('.', ',')}
+          </h3>
         </div>
       </div>
     </div>

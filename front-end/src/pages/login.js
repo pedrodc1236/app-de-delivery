@@ -11,7 +11,6 @@ function Login({ history }) {
 
   useEffect(() => {
     const getUser = JSON.parse(localStorage.getItem('user'));
-    console.log(getUser);
     if (getUser) {
       if (getUser.role === 'seller') {
         history.push('/seller/orders');

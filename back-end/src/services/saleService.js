@@ -30,8 +30,8 @@ const saleService = {
     return newSale;
   },
 
-  async getAll() {
-    const sales = await Sale.findAll();
+  async getAll(sellerId) {
+    const sales = await Sale.findAll({ where: { sellerId } });
     return sales;
   },
 

@@ -60,4 +60,11 @@ export const sellerList = async (t) => {
 //   return result.data;
 // };
 
+export const orderListBySeller = async (t) => {
+  const result = await axiosApi
+    .get('/sales/seller', { headers: { Authorization: t } })
+    .catch((error) => error.response.data);
+  return result.data;
+};
+
 export default axiosApi;

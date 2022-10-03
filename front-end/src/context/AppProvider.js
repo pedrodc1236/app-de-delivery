@@ -8,6 +8,7 @@ import {
   salesProductsById,
   productById,
   sellerList,
+  orderListBySeller,
 } from '../services/axios';
 
 import MyContext from './MyContext';
@@ -28,6 +29,8 @@ function AppProvider({ children }) {
   const [salesProductById, setSalesProductById] = useState([]);
   const [productsById, setProductsById] = useState([]);
   const [totalSale, setTotalSale] = useState(0);
+  const [totalPriceOrder, setTotalPriceOrder] = useState('');
+  const [ordersSeller, setOrdersSeller] = useState([]);
 
   const prodAll = async (t) => {
     const result = await productsList(t);
@@ -43,14 +46,18 @@ function AppProvider({ children }) {
     setOrders(result);
   };
 
+  const getOrdersSeller = async (t) => {
+    const result = await orderListBySeller(t);
+    setOrdersSeller(result);
+  };
+
   const getOrderByIdAndSeller = async (t, id) => {
     const resultOrders = await orderById(t, id);
     const { sellerId } = resultOrders;
     const resultUsers = await usersById(t, sellerId);
     const resultSalesProducts = await salesProductsById(t, id);
     const products = await productById(t, id);
-    // console.log(resultSalesProducts);
-    console.log(products);
+    setTotalPriceOrder(resultOrders);
     setOrderDetails(resultOrders);
     setUserById(resultUsers);
     setSalesProductById(resultSalesProducts);
@@ -89,6 +96,9 @@ function AppProvider({ children }) {
     salesProductById,
     totalSale,
     setTotalSale,
+    totalPriceOrder,
+    getOrdersSeller,
+    ordersSeller,
   }), [
     emailUser,
     nameUser,
@@ -104,6 +114,8 @@ function AppProvider({ children }) {
     total,
     sellers,
     totalSale,
+    totalPriceOrder,
+    ordersSeller,
   ]);
 
   return (
