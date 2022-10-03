@@ -7,9 +7,8 @@ import Product from './pages/products';
 import Orders from './pages/orders';
 import OrdersDetails from './pages/orderDetails';
 import OrdersSeller from './pages/orderSeller';
-// import AppProvider from './context/AppProvider';
+import Adm from './pages/adm';
 import Checkout from './pages/checkout';
-// import rockGlass from './images/rockGlass.svg';
 
 function App() {
   return (
@@ -29,6 +28,7 @@ function App() {
         <Route exact path="/customer/orders/:id" component={ OrdersDetails } />
         <Route exact path="/customer/checkout" component={ Checkout } />
         <Route exact path="/seller/orders" component={ OrdersSeller } />
+        <Route exact path="/admin/manage" component={ Adm } />
       </Switch>
     </section>
   );
