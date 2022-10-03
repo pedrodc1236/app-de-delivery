@@ -8,6 +8,7 @@ import {
   salesProductsById,
   productById,
   sellerList,
+  orderListBySeller,
 } from '../services/axios';
 
 import MyContext from './MyContext';
@@ -29,6 +30,7 @@ function AppProvider({ children }) {
   const [productsById, setProductsById] = useState([]);
   const [totalSale, setTotalSale] = useState(0);
   const [totalPriceOrder, setTotalPriceOrder] = useState('');
+  const [ordersSeller, setOrdersSeller] = useState([]);
 
   const prodAll = async (t) => {
     const result = await productsList(t);
@@ -42,6 +44,11 @@ function AppProvider({ children }) {
   const getOrders = async (t) => {
     const result = await orderList(t);
     setOrders(result);
+  };
+
+  const getOrdersSeller = async (t) => {
+    const result = await orderListBySeller(t);
+    setOrdersSeller(result);
   };
 
   const getOrderByIdAndSeller = async (t, id) => {
@@ -90,6 +97,8 @@ function AppProvider({ children }) {
     totalSale,
     setTotalSale,
     totalPriceOrder,
+    getOrdersSeller,
+    ordersSeller,
   }), [
     emailUser,
     nameUser,
@@ -106,6 +115,7 @@ function AppProvider({ children }) {
     sellers,
     totalSale,
     totalPriceOrder,
+    ordersSeller,
   ]);
 
   return (

@@ -10,8 +10,9 @@ const saleController = {
     res.status(201).json(newSale);
   },
 
-  async getAll(_req, res) {
-    const all = await saleService.getAll();
+  async getAll(req, res) {
+    const userId = await userService.getByEmail(req.user);
+    const all = await saleService.getAll(userId);
     res.status(200).json(all);
   },
 
