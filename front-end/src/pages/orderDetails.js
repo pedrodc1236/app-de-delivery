@@ -4,7 +4,7 @@ import PropTypes from 'prop-types';
 import Header from '../components/header';
 import { getUser } from '../services/localStorage';
 import MyContext from '../context/MyContext';
-// import OrderDetailsTable from '../components/orderDetailsTable';
+import OrderDetailsTable from '../components/orderDetailsTable';
 
 const ORDER_ID_MAXLENGTH = 4;
 const moment = require('moment');
@@ -48,7 +48,7 @@ function OrdersDetails() {
               data-testid={ `customer_order_details__element-order-details-label-order
                 -date` }
             >
-              { moment(orderDetails.saleDate).format('DD/MM/YY') }
+              { moment(orderDetails.saleDate).format('DD/MM/YYYY') }
             </p>
             <p
               data-testid={ `customer_order_details__element-order-details-
