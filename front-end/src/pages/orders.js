@@ -46,7 +46,7 @@ function Orders() {
                 <div
                   data-testid={ `customer_orders__element-order-date-${order.id}` }
                 >
-                  { moment(order.saleDate).format('DD/MM/YY') }
+                  { moment(order.saleDate).format('DD/MM/YYYY') }
                 </div>
                 <div
                   data-testid={ `customer_orders__element-card-price-${order.id}` }

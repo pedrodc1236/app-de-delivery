@@ -10,6 +10,20 @@ function Login({ history }) {
   const [notFound, setNotFound] = useState(false);
 
   useEffect(() => {
+    const getUser = JSON.parse(localStorage.getItem('user'));
+    console.log(getUser);
+    if (getUser) {
+      if (getUser.role === 'seller') {
+        history.push('/seller/orders');
+      } else if (getUser.role === 'customer') {
+        history.push('/customer/products');
+      } else if (getUser.role === 'administrador') {
+        history.push('/admin/manage');
+      }
+    }
+  });
+
+  useEffect(() => {
     const regexEmail = /\S+@\S+\.\S+/;
     const validEmail = regexEmail.test(email);
     const passLength = 6;

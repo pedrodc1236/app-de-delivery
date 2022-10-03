@@ -29,7 +29,7 @@ function Header() {
 
   const goProfile = (e) => {
     e.preventDefault();
-    history.push('/login');
+    history.push('/profile');
   };
 
   const leave = (e) => {
