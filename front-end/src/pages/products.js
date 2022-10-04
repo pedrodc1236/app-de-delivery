@@ -5,6 +5,7 @@ import MyContext from '../context/MyContext';
 import { getUser } from '../services/localStorage';
 import CardProduct from '../components/cardProduct';
 import BtnTotal from '../components/btnTotal';
+import '../style/products.css';
 
 function Products() {
   const { produtos, prodAll } = useContext(MyContext);
@@ -18,7 +19,7 @@ function Products() {
   return (
     <div>
       <Header />
-      <main>
+      <main className="main-sect">
         {produtos?.map((produto, index) => (
           <CardProduct
             key={ index }
@@ -30,8 +31,8 @@ function Products() {
             priceProd={ produto.price.replace(('.', ',')) }
           />
         ))}
-        <BtnTotal />
       </main>
+      <BtnTotal />
     </div>
   );
 }

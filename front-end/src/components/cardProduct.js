@@ -2,6 +2,7 @@ import React, { useContext, useEffect, useState } from 'react';
 import PropTypes from 'prop-types';
 import MyContext from '../context/MyContext';
 import { addFavorite } from '../services/localStorage';
+import '../style/products.css';
 
 function CardProduct({ id, nameP, urlImage, priceProd, index }) {
   const {
@@ -87,8 +88,9 @@ function CardProduct({ id, nameP, urlImage, priceProd, index }) {
   };
 
   return (
-    <div>
+    <div className="item-sect">
       <p
+        className="price"
         data-testid={ `customer_products__element-card-price-${id}` }
         key={ id }
       >
@@ -101,7 +103,10 @@ function CardProduct({ id, nameP, urlImage, priceProd, index }) {
         alt="product"
         data-testid={ `customer_products__img-card-bg-image-${id}` }
       />
-      <p data-testid={ `customer_products__element-card-title-${id}` }>
+      <p
+        data-testid={ `customer_products__element-card-title-${id}` }
+        className="namedrink-sect"
+      >
         {nameP}
       </p>
       <button

@@ -13,7 +13,7 @@ import OrderSellerDetails from './pages/orderSellerDetails';
 
 function App() {
   return (
-    <section>
+    <section className="main-sect">
       <Switch>
         <Route
           exact

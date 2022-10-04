@@ -1,14 +1,14 @@
 :root {
 
-  --main-color: #f8f4cc80;
+  --main-color: #edd9a3;
 
-  --main-color-darker: #FAE96F;
+  --main-color-darker: #ff9c38;
 
-  --secondary-color: #525252;
+  --secondary-color: #540303;
 
-  --secondary-color-lighter: #e7b500;
+  --secondary-color-lighter: #ad564b;
 
-  --accent: #7f887c;
+  --accent: #322e4e;
 }
 
 * {
@@ -45,4 +45,9 @@ body {
 
 .content-sect {
   margin-bottom: 80px;
+}
+
+.react-icon {
+  color: var(--secondary-color);
+  font-size: 1.8rem;
 }

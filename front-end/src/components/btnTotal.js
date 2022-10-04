@@ -2,6 +2,7 @@ import React, { useEffect, useContext, useState } from 'react';
 import { useHistory } from 'react-router-dom';
 import PropTypes from 'prop-types';
 import MyContext from '../context/MyContext';
+import '../style/btnTotal.css';
 
 function BtnTotal() {
   const history = useHistory();
@@ -39,18 +40,22 @@ function BtnTotal() {
   }, [cart]);
 
   return (
-    <button
-      type="button"
-      data-testid="customer_products__button-cart"
-      disabled={ disabledBtn }
-      onClick={ goCheckout }
-    >
-      <span
-        data-testid="customer_products__checkout-bottom-value"
+    <div className="total">
+      <button
+        className="button"
+        type="button"
+        data-testid="customer_products__button-cart"
+        disabled={ disabledBtn }
+        onClick={ goCheckout }
       >
-        { total }
-      </span>
-    </button>
+        <p>Total: </p>
+        <span
+          data-testid="customer_products__checkout-bottom-value"
+        >
+          { total }
+        </span>
+      </button>
+    </div>
   );
 }
 
