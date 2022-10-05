@@ -1,11 +1,3 @@
-.login-content {
-  position:absolute;
-  left:40%;
-  top:30%;
-  margin-left:-40px;
-  margin-top:-40px;
-}
-
 .label-content {
   font-size: 1.5rem;
   margin-left: 20px;
@@ -17,23 +9,23 @@
   box-shadow: 0 0 16px var(--main-color-darker);
   display: flex;
   flex-direction: column;
-  justify-content: space-between;
+  justify-content: space-around;
   margin: auto;
-  max-width: 500px;
+  max-width: 1200px;
   min-height: 50vh;
   padding: 60px;
   width: 90vw;
 }
 
 .login-input {
-  margin: auto;
   border: 1px solid var(--main-color);
   border-radius: 8px;
-  margin-left: 15px;
   box-shadow: 0 0 8px var(--main-color-darker);
   font-size: 1.2rem;
+  margin: auto;
+  margin-left: 15px;
   padding: 12px;
-  width: 90%;
+  width: 60%;
 }
 
 .login-btn {
@@ -45,23 +37,37 @@
   cursor: pointer;
   font-size: 1.6rem;
   font-weight: 700;
-  margin: auto;
+  margin-bottom: 20px;
+  margin-left: 10px;
   padding: 5px;
-  width: 90%;
+  width: 40%;
 }
 
 .login-btn:disabled {
-  background-color: var(--main-color-darker);
-  color: var(--secondary-color-lighter);
+  background-color: var(--accent);
+  color: var(--main-color);
   cursor: not-allowed;
 }
 
 .login-btn:hover {
-  background-color: var(--secondary-color-lighter);
+  background-color: #f41;
   color: var(--main-color-darker);
 }
 
 .login-btn:active {
   background-color: var(--accent);
   color: var(--main-color);
+}
+
+.login-title {
+  color: #f41;
+  font-size: 78px;
+  margin-bottom: 10%;
+  padding-bottom: 10px;
+}
+
+.login-form, p {
+  color: #f41;
+  font-weight: 800;
+  margin-bottom: 10px;
 }

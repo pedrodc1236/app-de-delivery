@@ -110,6 +110,7 @@ function CardProduct({ id, nameP, urlImage, priceProd, index }) {
         {nameP}
       </p>
       <button
+        className="btn-sum"
         onClick={ decrement }
         name={ id }
         id={ index }
@@ -129,6 +130,7 @@ function CardProduct({ id, nameP, urlImage, priceProd, index }) {
         data-testid={ `customer_products__input-card-quantity-${id}` }
       />
       <button
+        className="btn-sum"
         onClick={ increment }
         name={ id }
         id={ index }

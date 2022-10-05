@@ -2,7 +2,7 @@
 
   --main-color: #ffffff80;
 
-  --main-color-darker: #FAE96F;
+  --main-color-darker: #fae96f;
 
   --secondary-color: #525252;
 
@@ -12,11 +12,11 @@
 }
 
 * {
-  text-align: center;
   box-sizing: border-box;
   color: var(--secondary-color);
   margin: 0;
   padding: 0;
+  text-align: center;
 }
 
 body {
@@ -25,27 +25,32 @@ body {
 }
 
 .main-sect {
-  margin: auto;
-  text-align: center;
   background-color: var(--main-color);
   display: flex;
+  flex-flow: wrap;
   flex-direction: row;
-  flex-wrap: wrap;
-  max-width: 80vw;
   justify-content: center;
+  margin: auto;
+  max-width: 80vw;
+  text-align: center;
 }
 
 .item-sect {
-  font-weight: 600;
-  padding: 7px;
-  margin: 20px;
-  text-align: center;
-  border: 3px solid #FAE96F;
+  border: 3px solid #fae96f;
   border-radius: 10px;
+  font-weight: 600;
+  margin: 20px;
+  padding: 7px;
+  text-align: center;
 }
 
 .price {
-  background-color: #FAE96F;
+  background-color: #fae96f;
+}
+
+.btn-sum {
+  background-color: #f41;
+  width: 20px;
 }
 
 .namedrink-sect {
