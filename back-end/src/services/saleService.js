@@ -55,10 +55,10 @@ const saleService = {
 
     if (!sale) return NotFoundError(notFoundMessage);
 
-    const { userId, sellerId, totalPrice, deliveryAddress, deliveryNumber, saleDate } = reqBody;
+    const { userId, sellerId, totalPrice, deliveryAddress, deliveryNumber, saleDate, status } = reqBody;
 
     await Sale.update(
-      { userId, sellerId, totalPrice, deliveryAddress, deliveryNumber, saleDate },
+      { userId, sellerId, totalPrice, deliveryAddress, deliveryNumber, saleDate, status },
       { where: { id } },
     );
 

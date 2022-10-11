@@ -5,6 +5,7 @@ import Header from '../components/header';
 import { getUser } from '../services/localStorage';
 import MyContext from '../context/MyContext';
 import OrderDetailsTable from '../components/orderDetailsTable';
+import { updateById } from '../services/axios';
 
 const ORDER_ID_MAXLENGTH = 4;
 const moment = require('moment');
@@ -29,6 +30,24 @@ function OrdersDetails() {
     getOrderByIdAndSeller(token, id);
   // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
+
+  const changeFinishOrder = async () => {
+    const { token } = getUser();
+    const { userId, sellerId, totalPrice, deliveryAddress, deliveryNumber,
+      saleDate } = orderDetails;
+    const newObj = {
+      userId,
+      sellerId,
+      totalPrice,
+      deliveryAddress,
+      deliveryNumber,
+      saleDate,
+      status: 'Entregue' };
+    const newSale = { ...newObj };
+    console.log(newSale);
+    await updateById(token, id, newSale);
+    getOrderByIdAndSeller(token, id);
+  };
 
   return (
     <div>
@@ -63,7 +82,8 @@ function OrdersDetails() {
             <button
               type="button"
               data-testid="customer_order_details__button-delivery-check"
-              disabled
+              disabled={ orderDetails.status !== 'Em Trânsito' }
+              onClick={ changeFinishOrder }
             >
               MARCAR COMO ENTREGUE
             </button>

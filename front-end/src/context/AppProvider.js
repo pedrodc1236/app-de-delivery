@@ -89,6 +89,7 @@ function AppProvider({ children }) {
     getOrders,
     getOrderByIdAndSeller,
     orderDetails,
+    setOrderDetails,
     userById,
     getBySellers,
     sellers,

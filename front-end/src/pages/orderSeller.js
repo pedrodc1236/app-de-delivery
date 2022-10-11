@@ -1,7 +1,7 @@
 import React, { useEffect, useContext } from 'react';
 import PropTypes from 'prop-types';
 import { Link } from 'react-router-dom';
-import Header from '../components/header';
+import Header from '../components/sellerheader';
 import { getUser } from '../services/localStorage';
 import MyContext from '../context/MyContext';
 
