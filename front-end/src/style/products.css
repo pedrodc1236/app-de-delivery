@@ -1,0 +1,58 @@
+:root {
+
+  --main-color: #ffffff80;
+
+  --main-color-darker: #fae96f;
+
+  --secondary-color: #525252;
+
+  --secondary-color-lighter: #e7b500;
+
+  --accent: #7f887c;
+}
+
+* {
+  box-sizing: border-box;
+  color: var(--secondary-color);
+  margin: 0;
+  padding: 0;
+  text-align: center;
+}
+
+body {
+  background-color: var(--main-color);
+  color: var(--secondary-color);
+}
+
+.main-sect {
+  background-color: var(--main-color);
+  display: flex;
+  flex-flow: wrap;
+  flex-direction: row;
+  justify-content: center;
+  margin: auto;
+  max-width: 80vw;
+  text-align: center;
+}
+
+.item-sect {
+  border: 3px solid #fae96f;
+  border-radius: 10px;
+  font-weight: 600;
+  margin: 20px;
+  padding: 7px;
+  text-align: center;
+}
+
+.price {
+  background-color: #fae96f;
+}
+
+.btn-sum {
+  background-color: #f41;
+  width: 20px;
+}
+
+.namedrink-sect {
+  margin-bottom: 5px;
+}

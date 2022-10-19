@@ -2,6 +2,7 @@ import React, { useEffect, useState } from 'react';
 import PropTypes from 'prop-types';
 import axiosApi from '../services/axios';
 import { addUser, addId } from '../services/localStorage';
+import '../style/login.css';
 
 function Login({ history }) {
   const [email, setEmail] = useState('');
@@ -73,12 +74,13 @@ function Login({ history }) {
   };
 
   return (
-    <section>
-      <h1>Biritas Bar</h1>
-      <form method="post">
+    <section className="login-content">
+      <h1 className="login-title">Biritas Bar</h1>
+      <form method="post" className="login-form">
         <label htmlFor="loginEmail">
-          Login
+          <p className="label-content">Login</p>
           <input
+            className="login-input"
             data-testid="common_login__input-email"
             id="loginEmail"
             type="email"
@@ -88,10 +90,10 @@ function Login({ history }) {
             placeholder="email@trybeer.com.br"
           />
         </label>
-        <br />
         <label htmlFor="passwordIn">
-          Senha
+          <p className="label-content">Senha</p>
           <input
+            className="login-input"
             data-testid="common_login__input-password"
             type="password"
             value={ password }
@@ -100,27 +102,30 @@ function Login({ history }) {
             placeholder="***********"
           />
         </label>
-        <br />
-        <button
-          data-testid="common_login__button-login"
-          type="submit"
-          disabled={ !validate }
-          onClick={ (e) => handleSubmit(e) }
-        >
-          LOGIN
-        </button>
-      </form>
-      <button
-        type="button"
-        data-testid="common_login__button-register"
-        onClick={ createAccount }
-      >
-        Ainda Não tenho conta
-      </button>
-      {
-        notFound
+        <div className="btns-content">
+          <button
+            className="login-btn"
+            data-testid="common_login__button-login"
+            type="submit"
+            disabled={ !validate }
+            onClick={ (e) => handleSubmit(e) }
+          >
+            LOGIN
+          </button>
+          <button
+            className="login-btn"
+            type="button"
+            data-testid="common_login__button-register"
+            onClick={ createAccount }
+          >
+            Ainda Não tenho conta
+          </button>
+        </div>
+        {
+          notFound
         && <div data-testid="common_login__element-invalid-email">E-mail inválido!</div>
-      }
+        }
+      </form>
     </section>
   );
 }

@@ -7,6 +7,7 @@ import { useHistory } from 'react-router-dom';
 import React from 'react';
 // import MyContext from '../context/MyContext';
 import { cleanLocalStorage, getUser } from '../services/localStorage';
+import '../style/header.css';
 
 function Header() {
   const history = useHistory();
@@ -39,8 +40,9 @@ function Header() {
   };
 
   return (
-    <nav>
+    <nav className="header">
       <button
+        className="buttonheader"
         type="button"
         onClick={ goProducts }
         data-testid="customer_products__element-navbar-link-products"
@@ -48,6 +50,7 @@ function Header() {
         PRODUTOS
       </button>
       <button
+        className="buttonheader"
         type="button"
         onClick={ myRequests }
         data-testid="customer_products__element-navbar-link-orders"
@@ -55,6 +58,7 @@ function Header() {
         MEUS PEDIDOS
       </button>
       <button
+        className="buttonheader"
         type="button"
         onClick={ goProfile }
         data-testid="customer_products__element-navbar-user-full-name"
@@ -62,6 +66,7 @@ function Header() {
         { name }
       </button>
       <button
+        className="buttonheader"
         type="button"
         onClick={ leave }
         data-testid="customer_products__element-navbar-link-logout"

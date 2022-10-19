@@ -1,5 +1,7 @@
 const { User } = require('../database/models');
-// const { NotFoundError } = require('../middlewares/errors');
+const { NotFoundError } = require('../middlewares/errors');
+
+const notFoundMessage = 'this user does not exist';
 
 const userService = {
 
@@ -38,6 +40,14 @@ const userService = {
   async getByEmail(email) {
     const { id } = await User.findOne({ where: { email } });
     return id;
+  },
+
+  async remove(id) {
+    const removeSale = await User.destroy({ where: { id } });
+
+    if (!removeSale) return NotFoundError(notFoundMessage);
+
+    return true;
   },
 };
 

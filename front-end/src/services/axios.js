@@ -67,4 +67,25 @@ export const orderListBySeller = async (t) => {
   return result.data;
 };
 
+export const updateById = async (t, id, newSale) => {
+  const result = await axiosApi
+    .put(`/sales/${id}`, { ...newSale }, { headers: { Authorization: t } })
+    .catch((error) => error.response.data);
+  return result.data;
+};
+
+export const users = async (t) => {
+  const result = await axiosApi
+    .get('/users', { headers: { Authorization: t } })
+    .catch((error) => error.response.data);
+  return result.data;
+};
+
+export const removeUserById = async (t, id) => {
+  const result = await axiosApi
+    .delete(`/users/${id}`, { headers: { Authorization: t } })
+    .catch((error) => error.response.data);
+  return result.data;
+};
+
 export default axiosApi;

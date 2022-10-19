@@ -4,22 +4,24 @@ import MyContext from '../context/MyContext'; */
 import React from 'react';
 import PropTypes from 'prop-types';
 import { useHistory } from 'react-router-dom';
+import { cleanLocalStorage } from '../services/localStorage';
 
-function Header() {
+function HeaderSeller() {
   const history = useHistory();
 
   const requests = (e) => {
     e.preventDefault();
-    history.push('/login');
+    history.push('/seller/orders');
   };
 
   const goProfile = (e) => {
     e.preventDefault();
-    history.push('/login');
+    history.push('/seller/orders');
   };
 
   const leave = (e) => {
     e.preventDefault();
+    cleanLocalStorage();
     history.push('/login');
   };
 
@@ -50,10 +52,10 @@ function Header() {
   );
 }
 
-Header.propTypes = {
+HeaderSeller.propTypes = {
   history: PropTypes.shape({
     push: PropTypes.func,
   }).isRequired,
 };
 
-export default Header;
+export default HeaderSeller;
