@@ -39,6 +39,14 @@ const userService = {
     const { id } = await User.findOne({ where: { email } });
     return id;
   },
+
+  async remove(id) {
+    const removeSale = await User.destroy({ where: { id } });
+
+    if (!removeSale) return NotFoundError(notFoundMessage);
+
+    return true;
+  },
 };
 
 module.exports = userService;

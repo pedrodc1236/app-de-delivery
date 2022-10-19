@@ -17,6 +17,13 @@ const userController = {
     return res.status(200).json(user);
   },
 
+  async remove(req, res) {
+    const { id } = req.params;
+    await userService.remove(id);
+
+    res.status(204).end();
+  },
+
 };
 
 module.exports = userController;

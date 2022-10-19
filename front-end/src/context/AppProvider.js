@@ -9,6 +9,7 @@ import {
   productById,
   sellerList,
   orderListBySeller,
+  users,
 } from '../services/axios';
 
 import MyContext from './MyContext';
@@ -31,6 +32,7 @@ function AppProvider({ children }) {
   const [totalSale, setTotalSale] = useState(0);
   const [totalPriceOrder, setTotalPriceOrder] = useState('');
   const [ordersSeller, setOrdersSeller] = useState([]);
+  const [usersNotAdmin, setUsersNotAdmin] = useState([]);
 
   const prodAll = async (t) => {
     const result = await productsList(t);
@@ -69,6 +71,12 @@ function AppProvider({ children }) {
     setSellers(result);
   };
 
+  const getUsersNotAdmin = async (t) => {
+    const result = await users(t);
+    const data = await result.filter((user) => user.role !== 'administrator');
+    setUsersNotAdmin(data);
+  };
+
   const contextValue = useMemo(() => ({
     emailUser,
     valueTotal,
@@ -100,6 +108,8 @@ function AppProvider({ children }) {
     totalPriceOrder,
     getOrdersSeller,
     ordersSeller,
+    usersNotAdmin,
+    getUsersNotAdmin,
   }), [
     emailUser,
     nameUser,
@@ -117,6 +127,7 @@ function AppProvider({ children }) {
     totalSale,
     totalPriceOrder,
     ordersSeller,
+    usersNotAdmin,
   ]);
 
   return (

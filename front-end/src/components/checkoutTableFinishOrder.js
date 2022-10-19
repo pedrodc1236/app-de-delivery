@@ -15,7 +15,7 @@ function CheckoutTableFinishOrder() {
 
   return (
     <section>
-      <table>
+      <table className="tableCheckout">
         <thead>
           <tr>
             <th>Item</th>

@@ -3,6 +3,7 @@ import CheckoutFinishOrder from '../components/checkoutFinishOrder';
 import Header from '../components/header';
 import { getUser } from '../services/localStorage';
 import MyContext from '../context/MyContext';
+import '../style/checkout.css';
 
 function Checkout() {
   const { getBySellers } = useContext(MyContext);
